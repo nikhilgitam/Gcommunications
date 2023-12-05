@@ -1,0 +1,758 @@
+{% include 'includes/base.html' %}
+{% include 'includes/style.html' %}
+</head>
+
+<body>
+<div id="wrapper">
+    <!-- sider bar -->
+
+    {% include 'includes/sidemenu.html' %}
+
+    <!-- main content -->
+    <section class="home-section" id="homeSection">
+        <!-- header -->
+        {% include 'includes/header.html' %}
+        <!-- Content sec -->
+
+        <div id="overlay" style="display:block;z-index:10;">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div>
+        <section class="content-container innn">
+            <template>
+                <div>
+
+                    <h3 class="sub-title">Push Notification </h3>
+
+                    <div class="box-container">
+                        <form method="post" action="broadcast" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="gfor">Select Group *</label>
+                                        <select class="form-control"
+                                                name="gfor"
+                                                id="gfor" required>
+                                            <option value="">Select Group For</option>
+                                            <option value="student">Student</option>
+                                            <option value="staff">Staff</option>
+                                            <option value="parent">Parent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="campus">Campus *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="campus[]"
+                                                id="campus" multiple required>
+
+                                        </select>
+
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox1">Select
+                                        All
+                                        <br>
+
+                                        <small id="campusHelp" class="form-text text-muted">Please Select
+                                            Campus</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="Institute">Institute *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="institute[]"
+                                                id="institute" multiple required></select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox3">Select
+                                        All
+                                        <br>
+                                        <small id="instHelp" class="form-text text-muted">Please Select
+                                            Institute</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="Department">Department *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="department[]"
+                                                id="department" multiple required>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox4">Select
+                                        All
+                                        <br>
+
+                                        <small id="deptHelp" class="form-text text-muted">Please Select
+                                            Department</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2" id="role_div">
+                                    <div class="form-group">
+                                        <label for="role">Job Role *</label>
+                                        <select id="role" name="role" class="form-control"
+                                                aria-label="Department"
+                                                aria-describedby="roleHelp" required>
+                                            <option selected disabled>Select Role</option>
+                                            <option value="all">All</option>
+                                            <option value="T">Teaching</option>
+                                            <option value="N">Non Teaching</option>
+
+                                        </select>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            Job Role</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" id="degree_div">
+                                    <div class="form-group">
+                                        <label for="role">Degree *</label>
+                                        <select id="degree" name="degree[]" style="width:100%!important"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="degree"
+                                                aria-describedby="batchHelp" multiple required>
+
+                                            <option value="UG">UG</option>
+                                            <option value="PG">PG</option>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_degree">Select
+                                        All
+                                        <br>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            Job Role</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" id="batch_div">
+                                    <div class="form-group">
+                                        <label for="role">Class/Year *</label>
+                                        <select id="batch" name="batch[]"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="batch" style="width:100% !important"
+                                                aria-describedby="batchHelp" multiple required>
+                                            <option selected disabled>Select class</option>
+
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_class">Select
+                                        All
+                                        <br>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            year</small>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col-lg-6">
+                                    <h3 class="sub-title">Notification Content</h3> <label for="">Push Notification</label> <input type="checkbox" name="push"
+                                                                                       checked="true" disabled/>
+                                        &nbsp;&nbsp;&nbsp;<label for="">Circular Notification</label><input
+                                            type="checkbox" name="circular" value="0" />
+                                    <div class="form-group">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="subjectname">Notification Title *</label>
+                                        <input type="text" class="form-control"
+                                               aria-describedby="subjectHelp" name="title" required>
+                                        <small id="subjectHelp" class="form-text text-muted">Please Enter Title
+                                        </small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subjectname">Subject *</label>
+                                        <input type="text" class="form-control"
+                                               aria-describedby="subjectHelp" name="body" required>
+                                        <small id="subjectHelp" class="form-text text-muted">Please Enter Subject
+                                        </small>
+                                    </div>
+                                    <div class="form-group msg">
+                                        <br/>
+                                        <label for="exampleFormControlTextarea1" class="form-label">Message *</label>
+                                        <textarea class="form-control myEditor" id="exampleFormControlTextarea1"
+                                                  rows="3"
+                                                  aria-describedby="msgHelp" name="message"
+                                                  style="height:150px;"></textarea>
+                                        <small id="msgHelp" class="form-text text-muted">Please Enter Message</small>
+                                    </div>
+
+                                    <div class="form-group msg">
+                                        <br/>
+                                        <label for="upload">Upload Attachment </label>
+                                        <input type="file" class="form-control"
+                                               aria-describedby="upload" name="upload">
+                                        <small id="upload" class="form-text text-muted">Please Upload any
+                                            attachment</small>
+                                    </div>
+                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3 class="sub-title">Preview</h3>
+
+                                    <center>
+                                        <div style="background:#f5f5f5; padding-top: 10px">
+                                            <div class="form-group"
+                                                 style="position: relative;display: inline-block; width: 100%; background-image: url('/static/images/android.png'); background-repeat: no-repeat; background-position: center; height:186px">
+
+                                                <div style="background: #fff;margin-top: 72px; width: 350px; height:105px">
+                                                    <h5 class="title"
+                                                        style="padding-top: 20px; text-align: start; padding-left:10px;">
+                                                        G-Communications</h5>
+                                                    <h6 class="body" style="text-align: start; padding-left:10px;">
+                                                        Notification
+                                                        Text</h6>
+                                                </div>
+
+                                            </div>
+                                            <h5 style="font-size:16px;margin-bottom: 24px;color:rgba(0,0,0,0.55)">
+                                                Android</h5>
+                                            <div class="form-group"
+                                                 style="position: relative;display: inline-block; width: 100%; background-image: url('/static/images/iphone.png'); background-repeat: no-repeat; background-position: center; height:186px">
+
+                                                <div style="border-radius:12px;background: #fff;margin-top: 68px; width: 338px; height:105px">
+                                                    <h5 class="title"
+                                                        style="padding-top: 20px; text-align: start; padding-left:10px;">
+                                                        G-Communications</h5>
+                                                    <h6 class="body" style="text-align: start; padding-left:10px;">
+                                                        Notification
+                                                        Text</h6>
+
+                                                </div>
+
+                                            </div>
+                                            <h5 style="font-size:16px;margin-bottom: 24px;color:rgba(0,0,0,0.55)">
+                                                Iphone</h5>
+                                        </div>
+
+                                    </center>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                        </form>
+
+                    </div>
+
+
+                </div>
+
+
+            </template>
+
+
+            <!-- End content sec -->
+
+        </section>
+
+    </section>
+
+</div>
+{% include 'includes/scripts.html' %}
+{% load sweetify %}
+{% sweetify %}
+<script>
+
+
+    function showContent() {
+        var temp = document.getElementsByTagName("template")[0];
+        var clon = temp.content.cloneNode(true);
+        var app = document.getElementsByClassName("innn")[0];
+        app.appendChild(clon);
+
+    }
+
+    function navigate(link) {
+        window.location = link
+    }
+
+    $(document).ready(function () {
+
+
+        showContent();
+
+
+        $('#overlay').hide();
+
+
+        var sec = 1800,
+            countDiv = document.getElementById("countDown"),
+            secpass,
+            countDown = setInterval(function () {
+                'use strict';
+
+                secpass();
+            }, 1000);
+
+        function secpass() {
+            'use strict';
+
+            var min = Math.floor(sec / 60),
+                remSec = sec % 60;
+
+            if (remSec < 10) {
+
+                remSec = '0' + remSec;
+
+            }
+            if (min < 10) {
+
+                min = '0' + min;
+
+            }
+            countDiv.innerHTML = min + ":" + remSec;
+
+            if (sec > 0) {
+
+                sec = sec - 1;
+
+            } else {
+
+                clearInterval(countDown);
+                window.location.replace('logout')
+                //logout
+
+
+            }
+        }
+         $('input[name=message]').removeAttr('required')
+            $('.msg').hide()
+        $('#table').DataTable({
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+            ],
+        });
+        $('#table2').DataTable({
+            "columnDefs": [
+                {"className": "dt-center", "targets": "_all"}
+            ],
+        });
+        $('#role_div').hide();
+        $('#degree_div').hide();
+        $('#batch_div').hide();
+        $('#instruction_egroup').hide();
+        $('#role').prop('required', false);
+
+
+    });
+
+    function getMonthNumber(monthAbbreviation) {
+        var monthNames = {
+            "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04",
+            "May": "05", "Jun": "06", "Jul": "07", "Aug": "08",
+            "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"
+        };
+        return monthNames[monthAbbreviation];
+    }
+
+
+</script>
+
+<script>
+
+
+    $(document).ready(function () {
+        $('.js-example-institute-multiple').select2({theme: "classic", allowClear: true});
+
+        $(document).on('change', '#gfor', function () {
+            $('#institute').empty();
+            $('#campus').empty();
+            $('#department').empty();
+            $('#batch').empty();
+            $('#checkboxes').empty();
+            $('#sem').empty();
+            $('#batch_div').hide();
+            $('#degree_div').hide();
+
+            $('#role_div').hide();
+            $('#checkbox2').prop('checked', false);
+            var campus = ['VSP', 'HYD', 'BLR']
+            for (var i = 0; i < campus.length; i++) {
+                var data = {
+                    id: campus[i],
+                    text: campus[i]
+                };
+
+                var newOption = new Option(data.text, data.id);
+                $('#campus').append(newOption);
+            }
+
+        });
+
+        $(document).on('change', '#campus', function () {
+            $('#checkboxes').empty();
+            $('#department').empty()
+            $('#institute').empty()
+            $('#batch').empty()
+            $('#batch_div').hide();
+            var campus = $('#campus').val();
+            var gfor = $('#gfor').val();
+            //console.log(campus)
+            $.ajax({
+                type: "GET",
+                url: "{%url 'get_institute' %}",
+                data: {'campus': campus, 'gfor': gfor},
+                success: function (data) {
+                    //console.log(data.data)
+                    //console.log(campus.length)
+                    ins = data.data
+
+                    $('#institute').empty()
+                    if (campus.length > 0) {
+
+
+                        for (var i = 0; i < ins.length; i++) {
+                            var data = {
+                                id: ins[i],
+                                text: ins[i]
+                            };
+
+                            var newOption = new Option(data.text, data.id);
+                            $('#institute').append(newOption);
+                        }
+                    } else {
+                        $('#institute').empty()
+                    }
+
+                }
+
+
+            });
+        });
+
+        $(document).on('change', '#institute', function () {
+            $('#checkboxes').empty();
+
+            $('#department').empty()
+            $('#batch').empty()
+            $('#sem').empty()
+
+            var campus = $('#campus').val();
+            var institute = $('#institute').val();
+            var gfor = $('#gfor').val();
+            //console.log(campus)
+            $.ajax({
+                type: "GET",
+                url: "{%url 'get_department' %}",
+                data: {'campus': campus, 'institute': institute, 'gfor': gfor},
+                success: function (data) {
+                    //console.log(data.data)
+                    //console.log(campus.length)
+                    dept = data.data
+
+                    $('#department').empty()
+                    if (institute.length > 0) {
+
+                        for (var i = 0; i < dept.length; i++) {
+                            var data = {
+                                id: dept[i],
+                                text: dept[i]
+                            };
+
+                            var newOption = new Option(data.text, data.id);
+                            $('#department').append(newOption);
+                        }
+                    } else {
+                        $('#institute').empty()
+                    }
+                }
+            });
+        });
+
+        $(document).on('change', '#department', function () {
+            var gfor = $('#gfor').val();
+            var campus = $('#campus').val();
+            var institute = $('#institute').val();
+            var department = $('#department').val();
+            $('#batch').empty()
+            $('#sem').empty()
+            if (gfor === "student" || gfor === "parent") {
+                $('#degree_div').show();
+                $('#role').prop('required', false);
+            } else {
+                $('#role_div').show();
+                $('#role').prop('required', true);
+                $('#degree').prop('required', false);
+                $('#batch').prop('required', false);
+            }
+
+        });
+
+        $(document).on('change', '#degree', function () {
+            var gfor = $('#gfor').val();
+            var campus = $('#campus').val();
+            var institute = $('#institute').val();
+            var department = $('#department').val();
+            var degree = $('#degree').val();
+            $('#batch').empty()
+            $('#sem').empty()
+            if (gfor === "student" || gfor === "parent") {
+                $.ajax({
+                    type: "GET",
+                    url: "{%url 'get_batch' %}",
+                    data: {
+                        'campus': campus,
+                        'institute': institute,
+                        'gfor': gfor,
+                        'department': department,
+                        'degree': degree
+                    },
+                    success: function (data) {
+                        //console.log(data.data)
+                        //console.log(campus.length)
+                        batch = data.data
+
+                        $('#batch').empty()
+                        if (institute.length > 0) {
+                            for (var i = 0; i < batch.length; i++) {
+                                var data = {
+                                    id: batch[i],
+                                    text: batch[i]
+                                };
+                                var newOption = new Option(data.text, data.id);
+                                $('#batch').append(newOption);
+                                $('#batch_div').show();
+                            }
+                        } else {
+                            $('#department').empty()
+                        }
+                    }
+                });
+            } else {
+                $('#role_div').show();
+                $('#role').prop('required', true);
+            }
+
+        });
+        $(document).on('change', '#batch', function () {
+            $('#checkbox2').prop('checked', true);
+            var gfor = $('#gfor').val();
+            var campus = $('#campus').val();
+            var institute = $('#institute').val();
+            var department = $('#department').val();
+            var batch = $('#batch').val();
+            var degree = $('#degree').val();
+            if (gfor !== "student") {
+                return;
+            }
+            $.ajax({
+                type: "GET",
+                url: "{%url 'get_student_emails' %}",
+                data: {
+                    'campus': campus,
+                    'institute': institute,
+                    'gfor': gfor,
+                    'department': department,
+                    'batch': batch,
+                    'degree': degree
+                },
+                success: function (data) {
+                    $('#checkboxes').empty();
+                    console.log(data.data[1])
+                    //console.log(campus.length)
+                    console.log(lenght_ = data.data.length)
+
+                    for (let i = 0; i < parseInt(lenght_); i++) {
+                        var newOption = new Option(data.data[i], data.data[i]);
+                        console.log(newOption)
+                        $('#checkboxes').append(newOption);
+                    }
+                    arr = []
+                    $("#checkboxes").find("option").each(function () {
+                        $(this).attr('selected', 'selected');
+                        arr.push($(this).val())
+                    });
+                }
+            });
+        });
+
+
+        $(document).on('click', '#checkbox1', function () {
+
+            $('#checkbox2').removeAttr("selected");
+
+
+            if ($(this).is(':checked')) { //select all
+                arr = []
+                $("#campus").find("option").each(function () {
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val());
+                });
+                $('#campus').val(arr)
+            } else { //deselect all
+                $("#campus").find("option").each(function () {
+                    $(this).removeAttr("selected");
+                    $('#batch').removeAttr("selected");
+                    $('#degree').removeAttr("selected");
+
+
+                });
+                $('#checkbox_class').prop('checked', false);
+                $('#checkbox_degree').prop('checked', false);
+                $('#checkbox2').prop('checked', false);
+                $('#checkbox3').prop('checked', false);
+                $('#checkbox4').prop('checked', false);
+                $('#batch_div').hide();
+
+
+            }
+            $('#campus').trigger('change');
+
+        });
+
+        $(document).on('click', '#checkbox2', function () {
+            var data = $(this).val()
+
+
+            if ($(this).is(':checked')) { //select all
+
+                arr = []
+                $("#checkboxes").find("option").each(function () {
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#checkboxes').val(arr)
+            } else { //deselect all
+
+                $("#checkboxes").find("option").each(function () {
+                    $(this).removeAttr("selected");
+                });
+            }
+            $('#checkboxes').trigger('change');
+        });
+        $(document).on('click', '#checkbox_class', function () {
+            var data = $(this).val()
+
+
+            if ($(this).is(':checked')) { //select all
+
+                arr = []
+                $("#batch").find("option").each(function () {
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#batch').val(arr)
+            } else { //deselect all
+
+                $("#batch").find("option").each(function () {
+                    $(this).removeAttr("selected");
+                });
+            }
+            $('#batch').trigger('change');
+        });
+
+        $(document).on('click', '#checkbox_degree', function () {
+            var data = $(this).val()
+
+
+            if ($(this).is(':checked')) { //select all
+
+                arr = []
+                $("#degree").find("option").each(function () {
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#degree').val(arr)
+            } else { //deselect all
+
+                $("#degree").find("option").each(function () {
+                    $(this).removeAttr("selected");
+                });
+            }
+            $('#degree').trigger('change');
+        });
+
+        $(document).on('click', '#checkbox3', function () {
+            if ($(this).is(':checked')) { //select all
+                arr = []
+                $("#institute").find("option").each(function () {
+
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#institute').val(arr)
+            } else { //deselect all
+                $("#institute").find("option").each(function () {
+
+                    $(this).removeAttr("selected");
+                });
+
+
+            }
+            $('#institute').trigger('change');
+
+        });
+
+        $(document).on('click', '#checkbox4', function () {
+            if ($(this).is(':checked')) { //select all
+                arr = []
+                $("#department").find("option").each(function () {
+
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#department').val(arr)
+            } else { //deselect all
+                $("#department").find("option").each(function () {
+
+                    $(this).removeAttr("selected");
+                });
+
+
+            }
+            $('#department').trigger('change');
+
+
+        });
+        $(document).on('change', 'input[name=title]', function () {
+            let data = $(this).val()
+            if (data === "") {
+                $(".title").text("G-Communications")
+            } else {
+                $(".title").text(data)
+            }
+        })
+        $(document).on('change', 'input[name=body]', function () {
+            let data = $(this).val()
+            if (data === "") {
+                $(".body").text("Notification text")
+            } else {
+                $(".body").text(data)
+            }
+        })
+
+
+    });
+
+    $(document).on('change', 'input[name=circular]', function () {
+
+        if ($(this).prop('checked')) {
+            $('input[name=message]').prop('required', true)
+            $('.msg').show()
+            $(this).val(1)
+        } else {
+            $('input[name=message]').removeAttr('required')
+            $('.msg').hide()
+            $(this).val(0)
+        }
+
+    })
+</script>
