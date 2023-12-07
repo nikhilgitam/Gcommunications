@@ -29,7 +29,13 @@
                                             <p class="userName">{{request.user.first_name}}</p>
 
                                         </div>
-                                    <a href="/logout" class="sub-menu-link">
+                                       {% for i in user.groups.all %}
+                                {% load customtag %}
+
+                             <a class="sub-menu-link" style="text-decoration: none !important;" {% if request.user|has_group:i %} href="/{{ i }}" {% endif %}>
+                          <i class='bx bx-user' ></i>{{ i|upper }} </a>
+                            {% endfor %}
+                                    <a href="/logout2" class="sub-menu-link">
                                         <img src="https://cdn.gitam.edu/images/logout.png" class="w-6 mr-2">
                                         <p class="">Logout</p>
                                     </a>

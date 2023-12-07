@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My-GITAM</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="Distribution" content="Global" />
+    <meta name="description" />
+    <meta name="keywords" content="GITAM, Gat" />
+    <meta name="theme-color" content="#b1040e" />
+    <meta name="author" content="GITAM" />
+    <meta name="copyright" content="GITAM" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="https://cdn.gitam.edu/images/favicon/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/bootstrap-5.2.3/css/bootstrap.min.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/boxicons-2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/remixIcon-3.1.1/remixicon.css">
+    <link rel="stylesheet" href="https://cdn.gitam.edu/icon/fontawesome-6.4.0/css/all.min.css">
+
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/jquery-ui/css/jquery-ui.css">
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/dataTables/dataTables.bootstrap5.min.css" />
+
+    <!-- Sweet alerts -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/sweetAlert/sweetalert2.min.css" />
+
+    <!-- Daterangepicker -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/daterangepicker/css/daterange.min.css" />
+
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="https://cdn.gitam.edu/vendor/select2/select2.min.css">
+
+    <!-- custome style -->
+
+    <link rel="stylesheet" href="https://cdn.gitam.edu/css/root.css">
+
+    <style>
+        .btn_acc{
+     color: #b1040e;
+    font-weight: 600;
+    background-color: transparent;
+    border-color: transparent;
+    margin-right:30px;
+    }
+
+<!--    swichh code-->
+
+
+        .switch-label {
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .switch-label input {
+            display: none;
+        }
+
+        .switch-slider {
+           position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+    border-radius: 30px;
+    background-color: #ccc;
+    vertical-align: middle;
+    padding: 10px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #b1040e;
+    border-radius: 50%;
+    transition: all 0.3s;
+        }
+
+        .switch-input:checked + .switch-slider:before {
+            transform: translateX(30px);
+        }
+
+        .switch-content {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .content-hoi {
+
+            display: inline-block;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+
+        .content-hod {
+
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .switch-input:checked ~ .switch-content .content-hoi {
+            opacity: 0;
+        }
+
+        .switch-input:checked ~ .switch-content .content-hod {
+            opacity: 1;
+        }
+
+
+    .radio_column h6{
+    font-size:14px;
+    }
+    .label-width-lg{
+        min-width: 245px;
+        }
+        .left_div .label-width-md{
+        min-width: 270px;
+        }
+        .right_div{
+        margin-left:20px;
+        margin-bottom:20px;
+        }
+    .dsk-profile-pic {
+        border: 3px solid #981f2b;
+        border-radius: 150px;
+        width: 140px;
+        height: 140px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .dsk-profile-pic img {
+        width: 80%;
+    }
+    .dskp_img {
+    width: 80%;
+    }
+    .label-width-sm {
+  min-width: 200px;
+}
+.w-12{
+    width: 12%;
+}
+.pr_appr_sec .d-flex label:last-child {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+
+}
+
+.pr_appr_sec label {
+  margin-bottom: 14px;
+}
+
+.pr_appr_sec span {
+  font-weight: 400;
+  margin-right: 20px;
+}
+.l-w-15{
+    width:15px;
+}
+.l-w-150{
+    width:150px;
+}
+
+.l-w-300{
+width:300px;
+}
+.l-w-350{
+    width: 350px;
+}
+.l-w-200{
+width:200px;
+}
+{#.badge{#}
+{#min-width: 80px;#}
+{#    font-weight: 600;#}
+{#    font-size: 12px;#}
+{#}#}
+.bg-warning{
+color:#363636;
+}
+.status_full{
+    padding: 10px;
+margin-bottom: 35px;
+background-color:#9ac8b2;
+    text-align: center;
+}
+.b_odd {
+    padding: 20px;
+margin-bottom: 35px;
+background-color: #f4f9fc;
+box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+border-radius: 10px;
+    }
+.b_odd label {
+    margin-bottom: 10px;
+}
+.mt-25{
+    margin-top: 20px;
+}
+.mandate{
+color:red;
+
+}
+.w-auto{
+    width:auto;
+}
+.accordion-body .form-check{
+    margin-bottom: 20px;
+}
+.modal-lg{
+margin-bottom: 100px;
+}
+
+#questions_modal .dsk-profile-pic {
+    border: 3px solid #981f2b;
+    border-radius: 150px;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.swal2-icon.swal2-warning{
+        font-size: 14px; !important;
+}
+.swal2-icon{
+    margin: 1.5em auto 1.6em; !important;
+}
+
+.sub-container{
+        border: 1px solid #e8e2e2;
+    border-top: 1px solid var(--main-color);
+    padding: 20px;
+    margin-bottom: 35px;
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+}
+
+.swal2-icon.swal2-info {
+    font-family: 'Open Sans',sans-serif;
+    color: #3fc3ee;
+    border-color: #9de0f6;
+    font-size: 14px; !important;
+    line-height: 80px;
+    text-align: center;
+}
+
+.swal2-popup .swal2-title {
+    color: #595959;
+    font-size: 30px;
+    text-align: center;
+    font-weight: 600;
+    text-transform: none;
+    position: relative;
+    margin: 49px 4px 0.4em;
+    padding: 4px;
+    display: block;
+    word-wrap: break-word;
+}
+
+.spoc_box_input{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.spoc_box_button{
+   border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding: 2px 10px;
+}
+.w-25_50{
+    width:25%;
+}
+.width_class_75_50{
+    width:75%;
+}
+h6{
+font-size:14px;
+}
+.fa-circle-xmark.text-danger{
+    font-size: 34px !important;
+}
+{#responsive styles#}
+@media only screen and (max-width: 600px) {
+ .label-width-sm {
+    min-width: 120px;
+    font-size: 12px;
+}
+.label-width-lg {
+    min-width: 120px;
+    }
+.pr_appr_sec .d-flex label:last-child {
+    font-weight: 500 !important;
+    font-size: 12px !important;
+}
+.btn {
+margin-bottom:10px;
+}
+.dashboardCardContainer .cardBox{
+margin-bottom: 15px;
+}
+.tabsContainer .tabsFill .nav-tabs .nav-link {
+    padding: 5px 4px 5px 4px;
+    text-align: center;
+    font-size: 13px;
+
+}
+.page-title {
+    font-size: 14px;
+}
+.radio_column h6 {
+    font-size: 12px;
+}
+.auto_width .form-control{
+    width: auto;
+}
+.w-25_50{
+    width:50%;
+}
+.width_class_75_50{
+    width:50%;
+}
+.dsk-profile-pic img {
+        width: 30%;
+    }
+     .dskp_img {
+    width: 40%;
+    }
+}
+
+        .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px #ddd solid;
+    border-top: 4px rgba(145, 21, 31, 0.8) solid;
+    border-radius: 50%;
+    animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.colored {
+   box-shadow: 0 16px 16px 0 rgba(251,0,0,0.2);
+}
+.name-width{
+        min-width: 190px;
+}
+
+.cv-spinner {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#overlay {
+    position: fixed;
+    top: 0;
+    z-index: 1078 !important;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(0,0,0,0.6);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+
+
+
+        white-space: wrap;
+    display: inline-block;
+    word-break: break-all;
+}
+    </style>
+</head>
+
+
+
+<style>
+body{
+background-image: url(../static/img/resignation-bg2.jpg);
+ height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+    .login_screen{
+  min-height:100vh;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+    }
+    .content_login{
+    padding:70px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    background-color:white;
+        border-radius:12px;
+    }
+    .logo img{
+    margin-bottom:50px;
+
+    }
+    .separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.separator-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.separator-text {
+    margin: 0 10px;
+    color: #ccc;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-control_login {
+    width:100%;
+    border: none;
+    border-bottom: 1px solid #b2040e;
+    background-color: transparent;
+    transition: all 0.3s;
+}
+
+.form-control_login:focus {
+    outline: none;
+    border-color: #5b9bd5;
+}
+
+.form-control_login::placeholder {
+    color: transparent;
+    transition: inherit;
+}
+
+.form-control_login:focus::placeholder {
+    color: #aaa;
+}
+
+.form-control_login:invalid {
+    border-color: #ff0000;
+}
+
+.form-control_login:invalid:focus {
+    border-color: #ff0000;
+}
+
+.form-control_login.valid {
+    border-color: #008000;
+}
+
+.form-control_login.valid:focus {
+    border-color: #008000;
+}
+
+/* Add floating label styles */
+.label-floating {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    pointer-events: none;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.form-control_login:focus ~ .label-floating,
+.form-control_login:not(:placeholder-shown) ~ .label-floating {
+    top: -20px;
+    left: 0;
+    font-size: 12px;
+    color: #5b9bd5;
+}
+.error1 {
+    color: #b1040e;
+    background-color: #ffd8d8;
+}
+.close_button {
+    padding: 2px 5px;
+    background: #b1040e;
+    margin-left: 30px;
+    color: white;
+    border: 1px solid white;
+    font-size: 16px;
+}
+.alert-dismissible {
+    padding-right: 8px;
+}
+.alert {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    }
+
+</style>
+
+    <body class="">
+
+       <body class="">
+    <form id="logout-form" action="logout" method="POST" style="display: none;">
+        <input type="hidden" name="_token" value="xmS496QOABm7fqhmjuT52bSBFwcgBF8M2jM87brn">
+    </form>
+
+    <div class="main-content">
+        <div class="header bg-gradient-primary">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="login_screen">
+                        <div class="content_login">
+                            <div class="col align-items-end">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                         <div class="error1 alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                              {{ message }}
+                                              <button type="button" class="close close_button" aria-label="Close" onclick="this.parentElement.style.display='none';">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="logo">
+                                <a href="https://www.gitam.edu/">
+                                    <img class="lazyload" src="https://guprojects.gitam.edu/g-cdn/images/gitam-logo.jpg"
+                                        alt="GITAM logo" title="GITAM">
+                                </a>
+                            </div>
+
+
+{#                            <div class="separator">#}
+{#                                <span class="separator-line"></span>#}
+{#                                <span class="separator-text">OR</span>#}
+{#                                <span class="separator-line"></span>#}
+{#                            </div>#}
+                        <h4>G-Communications</h4>
+
+                            <form action="{% url 'index' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <h6 style="font-size: 13px;">Login with emp ID</h6>
+
+                                    <input class="form-control_login" type="text" name="empid">
+                                </div>
+
+                                <div class="form-group mt-5">
+                                    <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+       <script>
+
+        $('#example1').DataTable({
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          }
+        });
+
+
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+    </script>
+    </body>
+</html>

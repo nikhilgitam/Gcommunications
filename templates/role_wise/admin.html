@@ -1,0 +1,150 @@
+<div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="gfor">Target Audience *</label>
+                                        <select class="form-control"
+                                                name="gfor"
+                                                id="gfor" required>
+                                            <option value="">Select Group For</option>
+                                            <option value="student">Student</option>
+                                            <option value="staff">Staff</option>
+                                            <option value="parent">Parent</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="campus">Campus *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="campus[]"
+                                                id="campus" multiple required>
+
+                                        </select>
+
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox1">Select
+                                        All
+                                        <br>
+
+                                        <small id="campusHelp" class="form-text text-muted">Please Select
+                                            Campus</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="Institute">Institute *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="institute[]"
+                                                id="institute" multiple required></select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox3">Select
+                                        All
+                                        <br>
+                                        <small id="instHelp" class="form-text text-muted">Please Select
+                                            Institute</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label for="Department">Department *</label>
+                                        <select class="form-control js-example-institute-multiple"
+                                                name="department[]"
+                                                id="department" multiple required>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox4">Select
+                                        All
+                                        <br>
+
+                                        <small id="deptHelp" class="form-text text-muted">Please Select
+                                            Department</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2" id="role_div">
+                                    <div class="form-group">
+                                        <label for="role">Job Role *</label>
+                                        <select id="role" name="role" class="form-control"
+                                                aria-label="Department"
+                                                aria-describedby="roleHelp" required>
+                                            <option selected disabled>Select Role</option>
+                                            <option value="all">All</option>
+                                            <option value="T">Teaching</option>
+                                            <option value="N">Non Teaching</option>
+
+                                        </select>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            Job Role</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" id="degree_div">
+                                    <div class="form-group">
+                                        <label for="role">Degree *</label>
+                                        <select id="degree" name="degree[]" style="width:100%!important"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="degree"
+                                                aria-describedby="batchHelp" multiple required>
+
+                                            <option value="UG">UG</option>
+                                            <option value="PG">PG</option>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_degree">Select
+                                        All
+                                        <br>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            Job Role</small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" id="batch_div">
+                                    <div class="form-group">
+                                        <label for="role">Class/Year *</label>
+                                        <select id="batch" name="batch[]"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="batch" style="width:100% !important"
+                                                aria-describedby="batchHelp" multiple required>
+                                            <option selected disabled>Select class</option>
+
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_class">Select
+                                        All
+                                        <br>
+                                        <small id="roleHelp" class="form-text text-muted">Please Select
+                                            year</small>
+                                    </div>
+                                </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Department">Message Type *</label>
+                                <select class="form-control" name="message_type" id="message_type" required>
+                                    <option value="">Select</option>
+                                    <option value="1">One Time</option>
+                                    <option value="2">Daily</option>
+                                    <option value="3">Weekly</option>
+                                    <option value="4">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Department">For Application *</label>
+                                <select class="form-control js-example-institute-multiple" name="message_type" id="message_type" multiple
+                                        required>
+                                    <option value="G-Parent">G-Parent</option>
+                                    <option value="G-Staff">G-Staff</option>
+                                    <option value="G-Student">G-Student</option>
+                                    <option value="G-Learn">G-Learn</option>
+                                </select>
+                            </div>
+                        </div>
+                        {% load customtag %}
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Department">Visibility Period *</label>
+                                <input type="date" min="{{ exclude_today|from_current_data }}" class="form-control" name="visible_period">
+                            </div>
+                        </div>
+</div>

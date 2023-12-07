@@ -5,6 +5,11 @@ from django.contrib.auth.models import Group
 
 class User(AbstractUser):
     email = models.CharField(max_length=500, blank=True, null=True)
+    name = models.CharField(max_length=150, null=True, blank=True)
+    designation = models.CharField(max_length=100, null=True, blank=True)
+    campus = models.CharField(max_length=100, null=True, blank=True)
+    institution = models.CharField(max_length=100, null=True, blank=True)
+    dept_code = models.CharField(max_length=100, null=True, blank=True)
     u_id = models.CharField(max_length=50, blank=True, null=True)
     groups = models.ManyToManyField(
         Group,

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'users',
+    'import_export',
     'sweetify'
 ]
 
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'gcommunications.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/ 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +67,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'customtag': 'templatetags.customtag',
+
+            },
         },
     },
 ]
@@ -73,6 +78,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gcommunications.wsgi.application'
 
 AUTH_USER_MODEL = 'users.User'
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -164,6 +171,6 @@ else:
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-LOGIN_REDIRECT_URL = '/dashboard'
-LOGIN_URL = 'https://login.gitam.edu/apps.aspx'
-LOGOUT_REDIRECT_URL='https://login.gitam.edu/apps.aspx'
+LOGIN_REDIRECT_URL = '/index'
+LOGIN_URL = '/index'
+LOGOUT_REDIRECT_URL='/logout2'

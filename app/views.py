@@ -2,7 +2,7 @@ import pickle
 
 import sweetify
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -32,22 +32,62 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user',
 
 
 # Create your views here.
-def signout(request):
+def logout2(request):
     logout(request)
     return redirect('/')
 
 
-def login(request):
+def login2(request):
     return render(request, 'login.html')
 
 
 def dashboard(request):
+    if request.session['gname'] == "ADMIN":
+        return render(request, 'dashboard.html')
+    if request.session['gname'] == "HOD":
+        pass
+    if request.session['gname'] == "HOI":
+        dept = EmployeeMaster.objects.using('GITAM').filter(campus=request.user.campus,college_code=request.user.institution).values_list('dept_code',flat=True).distinct()
+        dept = list(dept)
+        context = dict()
+        context['dept'] = dept
+        return render(request,'dashboard.html',context)
     return render(request, 'dashboard.html')
 
 
 def index(request):
-    return redirect('/dashboard')
+    empid = request.POST['empid']
+    if User.objects.filter(u_id=empid).exists():
+        user = User.objects.get(u_id=empid)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user)
+        gname = request.user.groups.all().values()
+        gname2 = gname[0]['name']
+        request.session['gname'] = gname2
+        return redirect('dashboard')
+    else:
+        messages.error(request,'You are not authorized to access')
+        return redirect('/')
 
+def ADMIN(request):
+    request.session['gname'] = "ADMIN"
+    return redirect('dashboard')
+
+def HOD(request):
+    request.session['gname'] = "HOD"
+    return redirect('dashboard')
+
+def HOI(request):
+    request.session['gname'] = "HOI"
+    return redirect('dashboard')
+
+def CAMPUS(request):
+    request.session['gname'] = "CAMPUS"
+    return redirect('dashboard')
+
+def DEAN(request):
+    request.session['gname'] = "DEAN"
+    return redirect('dashboard')
 
 def get_groupname(request):
     if request.method != "GET":
@@ -159,12 +199,29 @@ def get_department(request):
 def get_batch(request):
     if request.method != "GET":
         return JsonResponse({'data': "Error"})
+
     gfor = request.GET['gfor']
-    campus = request.GET.getlist('campus[]')
-    institute = request.GET.getlist('institute[]')
-    department = request.GET.getlist('department[]')
+
+    if request.session['gname'] == "HOD" or request.session['gname'] == "HOI":
+        campus = request.GET.get('campus')
+        institute = request.GET.get('institute')
+        if request.session['gname'] == "HOD":
+            department = request.GET.get('department')
+            department = [department]
+        else:
+            department = request.GET.getlist('department[]')
+        campus = [campus]
+        institute = [institute]
+    else:
+        campus = request.GET.getlist('campus[]')
+        institute = request.GET.getlist('institute[]')
+        department = request.GET.getlist('department[]')
     degree = request.GET.getlist('degree[]')
-    if gfor == "student":
+    print(campus)
+    print(institute)
+    print(department)
+    print(degree)
+    if gfor == "student" or gfor == "parent":
         df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                           dept_code__in=department, status="S",
                                                           degree_code__in=degree).exclude(
@@ -297,7 +354,6 @@ def boardcast(request):
                                                                                           role=role_).userid)
 
                 if circular:
-
                     message = PushMessage(
                         to=push_token,
                         title=title,

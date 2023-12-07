@@ -862,6 +862,15 @@ class GroupList(models.Model):
     class Meta:
         managed = False
 
+class WebApplication(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    application_name = models.CharField(max_length=500,null=True,blank=True)
+
+
+class MobileApplication(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    application_name = models.CharField(max_length=500, null=True, blank=True)
+
 class UploadImage(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     image = models.FileField('images/', blank=True, null=True)
@@ -871,9 +880,13 @@ class PushNotification(models.Model):
     body = models.TextField(null=True, blank=True)
     title = models.TextField(null=True, blank=True)
     data = models.TextField(null=True, blank=True)
+    campus = models.TextField(null=True, blank=True)
+    institute = models.TextField(null=True, blank=True)
+    department = models.TextField(null=True, blank=True)
     group = models.TextField(null=True, blank=True)
     sent_by = models.CharField(max_length=500, null=True, blank=True)
     type = models.CharField(max_length=50, null=True, blank=True)
+    is_web = models.BooleanField(default=False,null=True,blank=True)
     attachments = models.FileField('attachments/',blank=True,null=True)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
@@ -884,6 +897,20 @@ class PushNotification(models.Model):
 class PushNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True)
     userid = models.CharField(max_length=500, null=True, blank=True)
+    status = models.BooleanField(default=False)
+    dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    visibility_timer = models.DateField(null=True, blank=True)
+    repeat_message = models.IntegerField(default=0, null=True, blank=True)
+    role = models.CharField(max_length=2, null=True, blank=True)
+
+    class Meta:
+        managed = False
+
+class WebNotificationStatus(models.Model):
+    notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True,related_name="web_notification")
+    userid = models.CharField(max_length=500, null=True, blank=True)
+    visibility_timer = models.DateField(null=True, blank=True)
+    repeat_message = models.IntegerField(default=0, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
     role = models.CharField(max_length=2, null=True, blank=True)

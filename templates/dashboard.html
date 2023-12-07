@@ -28,134 +28,23 @@
                     <div class="box-container">
                         <form method="post" action="broadcast" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="gfor">Select Group *</label>
-                                        <select class="form-control"
-                                                name="gfor"
-                                                id="gfor" required>
-                                            <option value="">Select Group For</option>
-                                            <option value="student">Student</option>
-                                            <option value="staff">Staff</option>
-                                            <option value="parent">Parent</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="campus">Campus *</label>
-                                        <select class="form-control js-example-institute-multiple"
-                                                name="campus[]"
-                                                id="campus" multiple required>
-
-                                        </select>
-
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox1">Select
-                                        All
-                                        <br>
-
-                                        <small id="campusHelp" class="form-text text-muted">Please Select
-                                            Campus</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="Institute">Institute *</label>
-                                        <select class="form-control js-example-institute-multiple"
-                                                name="institute[]"
-                                                id="institute" multiple required></select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox3">Select
-                                        All
-                                        <br>
-                                        <small id="instHelp" class="form-text text-muted">Please Select
-                                            Institute</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="Department">Department *</label>
-                                        <select class="form-control js-example-institute-multiple"
-                                                name="department[]"
-                                                id="department" multiple required>
-
-                                        </select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox4">Select
-                                        All
-                                        <br>
-
-                                        <small id="deptHelp" class="form-text text-muted">Please Select
-                                            Department</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2" id="role_div">
-                                    <div class="form-group">
-                                        <label for="role">Job Role *</label>
-                                        <select id="role" name="role" class="form-control"
-                                                aria-label="Department"
-                                                aria-describedby="roleHelp" required>
-                                            <option selected disabled>Select Role</option>
-                                            <option value="all">All</option>
-                                            <option value="T">Teaching</option>
-                                            <option value="N">Non Teaching</option>
-
-                                        </select>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Job Role</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" id="degree_div">
-                                    <div class="form-group">
-                                        <label for="role">Degree *</label>
-                                        <select id="degree" name="degree[]" style="width:100%!important"
-                                                class="form-control js-example-institute-multiple"
-                                                aria-label="degree"
-                                                aria-describedby="batchHelp" multiple required>
-
-                                            <option value="UG">UG</option>
-                                            <option value="PG">PG</option>
-
-                                        </select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox_degree">Select
-                                        All
-                                        <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Job Role</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" id="batch_div">
-                                    <div class="form-group">
-                                        <label for="role">Class/Year *</label>
-                                        <select id="batch" name="batch[]"
-                                                class="form-control js-example-institute-multiple"
-                                                aria-label="batch" style="width:100% !important"
-                                                aria-describedby="batchHelp" multiple required>
-                                            <option selected disabled>Select class</option>
-
-
-                                        </select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox_class">Select
-                                        All
-                                        <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            year</small>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
+                            {% if request.session.gname == "ADMIN" %}
+                                {% include 'role_wise/admin.html' %}
+                            {% elif request.session.gname == "HOD" %}
+                                {% include 'role_wise/hod.html' %}
+                            {% elif request.session.gname == "HOI" %}
+                                {% include 'role_wise/hoi.html' %}
+                            {% elif request.session.gname == "CAMPUS" %}
+                                {% include 'role_wise/campus.html' %}
+                            {% elif request.session.gname == "DEAN" %}
+                                {% include 'role_wise/dean.html' %}
+                            {% endif %}
                             <div class="row">
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-6" id="notification">
                                     <h3 class="sub-title">Notification Content</h3> <label for="">Push Notification</label> <input type="checkbox" name="push"
                                                                                        checked="true" disabled/>
-                                        &nbsp;&nbsp;&nbsp;<label for="">Circular Notification</label><input
+                                        &nbsp;&nbsp;&nbsp;<label for="circular">Circular Notification</label> <input id="circular"
                                             type="checkbox" name="circular" value="0" />
                                     <div class="form-group">
 
@@ -195,7 +84,7 @@
                                     </div>
                                        <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6" id="preview">
                                     <h3 class="sub-title">Preview</h3>
 
                                     <center>
@@ -492,11 +381,24 @@
         });
 
         $(document).on('change', '#degree', function () {
-            var gfor = $('#gfor').val();
+            var role = "{{request.session.gname}}"
+            if(role === "HOD" || role === "HOI"){
+                var gfor = $('#gfor_hod').val();
+
+            }
+            else{
+                var gfor = $('#gfor').val();
+            }
+
             var campus = $('#campus').val();
             var institute = $('#institute').val();
             var department = $('#department').val();
             var degree = $('#degree').val();
+            console.log(gfor)
+            console.log(campus)
+            console.log(institute)
+            console.log(department)
+            console.log(degree)
             $('#batch').empty()
             $('#sem').empty()
             if (gfor === "student" || gfor === "parent") {
@@ -514,6 +416,7 @@
                         //console.log(data.data)
                         //console.log(campus.length)
                         batch = data.data
+                        console.log(batch)
 
                         $('#batch').empty()
                         if (institute.length > 0) {
@@ -747,10 +650,14 @@
         if ($(this).prop('checked')) {
             $('input[name=message]').prop('required', true)
             $('.msg').show()
+            $('#preview').hide()
+            $('#notification').removeClass('col-lg-6').addClass('col-lg-12');
             $(this).val(1)
         } else {
             $('input[name=message]').removeAttr('required')
             $('.msg').hide()
+             $('#preview').show()
+            $('#notification').removeClass('col-lg-12').addClass('col-lg-6');
             $(this).val(0)
         }
 
