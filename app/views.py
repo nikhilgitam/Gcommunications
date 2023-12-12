@@ -359,63 +359,36 @@ def boardcast(request):
         if upload != '':
             notification.attachments = upload
             notification.save()
-        push_tokens = PushToken.objects.using('G-comm').all().values_list('token', flat=True)
-        print(push_tokens)
-        print(role_)
-        print(push_list)
         push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_).values_list('token', flat=True)
-        push_client = PushClient()
-        print(push_tokens)
-        for push_token in push_tokens:
-            print(push_token)
-            push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-                                                         userid=PushToken.objects.using('G-comm').get(token=push_token,
-                                                                                      role=role_).userid)
-            push.visibility_timer = int(visibility)
-            push.save()
 
-            if circular:
-                message = PushMessage(
-                    to=push_token,
-                    title=title,
-                    body=body,
-                    data={"id": push.id, "data": data},
-                )
-            else:
-                message = PushMessage(
-                    to=push_token,
-                    title=title,
-                    body=body,
-                    data={"id": None},
-                )
-
-            response = push_client.publish(message)
-            sweetify.success(request, "Push Notified Successfully!!")
         try:
             push_client = PushClient()
             for push_token in push_tokens:
-                push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-                                                             userid=PushToken.objects.get(token=push_token,
-                                                                                          role=role_).userid)
-                push.visibility_timer = visibility
-                push.save()
+                if push_token:
+                    print('push_token')
+                    print(push_token)
+                    push = PushNotificationStatus.objects.create(notification=notification, role=role_,
+                                                                 userid=PushToken.objects.using('G-comm').get(token=push_token,
+                                                                                              role=role_).userid)
+                    push.visibility_timer = visibility
+                    push.save()
 
-                if circular:
-                    message = PushMessage(
-                        to=push_token,
-                        title=title,
-                        body=body,
-                        data={"id": push.id, "data": data},
-                    )
-                else:
-                    message = PushMessage(
-                        to=push_token,
-                        title=title,
-                        body=body,
-                        data={"id": None},
-                    )
+                    if circular:
+                        message = PushMessage(
+                            to=push_token,
+                            title=title,
+                            body=body,
+                            data={"id": push.id, "data": data},
+                        )
+                    else:
+                        message = PushMessage(
+                            to=push_token,
+                            title=title,
+                            body=body,
+                            data={"id": None},
+                        )
 
-                response = push_client.publish(message)
+                    response = push_client.publish(message)
                 sweetify.success(request, "Push Notified Successfully!!")
         except Exception as e:
             print(str(e))
