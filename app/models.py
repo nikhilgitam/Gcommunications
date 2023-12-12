@@ -890,6 +890,7 @@ class PushNotification(models.Model):
     sent_by = models.CharField(max_length=500, null=True, blank=True)
     type = models.CharField(max_length=50, null=True, blank=True)
     is_web = models.BooleanField(default=False,null=True,blank=True)
+    is_schedule = models.BooleanField(default=False,null=True,blank=True)
     attachments = models.FileField('attachments/',blank=True,null=True)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
@@ -900,7 +901,8 @@ class PushNotificationStatus(models.Model):
     userid = models.CharField(max_length=500, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
-    visibility_timer = models.IntegerField(null=True, blank=True)
+    from_date = models.DateTimeField(null=True, blank=True)
+    to_date = models.DateTimeField(null=True, blank=True)
     repeat_message = models.IntegerField(default=0, null=True, blank=True)
     role = models.CharField(max_length=2, null=True, blank=True)
 
@@ -909,7 +911,8 @@ class PushNotificationStatus(models.Model):
 class WebNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True,related_name="web_notification")
     userid = models.CharField(max_length=500, null=True, blank=True)
-    visibility_timer = models.IntegerField(null=True, blank=True)
+    from_date = models.DateTimeField(null=True, blank=True)
+    to_date = models.DateTimeField(null=True, blank=True)
     repeat_message = models.IntegerField(default=0, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
