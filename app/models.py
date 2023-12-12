@@ -859,8 +859,6 @@ class GroupList(models.Model):
     active = models.BooleanField(default=True)
     created_on = models.DateTimeField(null=True, blank=True)
 
-    class Meta:
-        managed = False
 
 class WebApplication(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
@@ -874,6 +872,11 @@ class MobileApplication(models.Model):
 class UploadImage(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     image = models.FileField('images/', blank=True, null=True)
+
+class Dean(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    college = models.CharField(max_length=500, blank=True, null=True)
+    stream = models.CharField(max_length=500, blank=True, null=True)
 
 class PushNotification(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
@@ -890,8 +893,6 @@ class PushNotification(models.Model):
     attachments = models.FileField('attachments/',blank=True,null=True)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
-    class Meta:
-        managed = False
 
 
 class PushNotificationStatus(models.Model):
@@ -899,24 +900,21 @@ class PushNotificationStatus(models.Model):
     userid = models.CharField(max_length=500, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
-    visibility_timer = models.DateField(null=True, blank=True)
+    visibility_timer = models.IntegerField(null=True, blank=True)
     repeat_message = models.IntegerField(default=0, null=True, blank=True)
     role = models.CharField(max_length=2, null=True, blank=True)
 
-    class Meta:
-        managed = False
+
 
 class WebNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True,related_name="web_notification")
     userid = models.CharField(max_length=500, null=True, blank=True)
-    visibility_timer = models.DateField(null=True, blank=True)
+    visibility_timer = models.IntegerField(null=True, blank=True)
     repeat_message = models.IntegerField(default=0, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
     role = models.CharField(max_length=2, null=True, blank=True)
 
-    class Meta:
-        managed = False
 
 
 class PushToken(models.Model):
@@ -925,5 +923,3 @@ class PushToken(models.Model):
     role = models.CharField(max_length=1, null=True, blank=True)
     is_active = models.BooleanField(default=False)
 
-    class Meta:
-        managed = False

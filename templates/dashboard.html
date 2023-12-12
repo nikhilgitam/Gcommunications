@@ -23,10 +23,10 @@
             <template>
                 <div>
 
-                    <h3 class="sub-title">Push Notification </h3>
+                    <h3 class="sub-title">Circular Notification </h3>
 
                     <div class="box-container">
-                        <form method="post" action="broadcast" enctype="multipart/form-data">
+                        <form method="post" action="/broadcast" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if request.session.gname == "ADMIN" %}
                                 {% include 'role_wise/admin.html' %}
@@ -344,7 +344,6 @@
 
                     $('#department').empty()
                     if (institute.length > 0) {
-
                         for (var i = 0; i < dept.length; i++) {
                             var data = {
                                 id: dept[i],
@@ -377,7 +376,6 @@
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
-
         });
 
         $(document).on('change', '#degree', function () {

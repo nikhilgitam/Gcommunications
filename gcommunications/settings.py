@@ -87,6 +87,17 @@ AUTH_USER_MODEL = 'users.User'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
+        'NAME': 'Gcommunications-test',
+        'USER': 'sa',
+        'PASSWORD': 'G1t2m@PythonDB_@#',
+        'HOST': '192.168.64.191',
+        'PORT': '',
+        'OPTIONS': {
+            'DRIVER': 'SQL Server Native Client 9.0',
+        },
+    },
+    'G-comm': {
+        'ENGINE': 'mssql',
         'NAME': 'Gcommunications',
         'USER': 'sa',
         'PASSWORD': 'G1t2m@PythonDB_@#',

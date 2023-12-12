@@ -46,6 +46,14 @@ def dashboard(request):
         return render(request, 'dashboard.html')
     if request.session['gname'] == "HOD":
         pass
+    if request.session['gname'] == "DEAN":
+        ddata = Dean.objects.filter(college=request.user.institution).values('stream')
+        stream = ddata[0]['stream']
+        inst = Dean.objects.filter(stream=stream).values_list('college', flat=True)
+        inst = list(inst)
+        request.session['dean_list'] = inst
+
+
     if request.session['gname'] == "HOI":
         dept = EmployeeMaster.objects.using('GITAM').filter(campus=request.user.campus,college_code=request.user.institution).values_list('dept_code',flat=True).distinct()
         dept = list(dept)
@@ -174,6 +182,10 @@ def get_institute(request):
 
     institute = list(institute)
     institute = list(filter(None, institute))
+    if request.session['gname'] == "DEAN":
+        intersection = [value for value in institute if value in request.session['dean_list']]
+        return JsonResponse({'data': intersection})
+
     return JsonResponse({'data': institute})
 
 
@@ -199,9 +211,7 @@ def get_department(request):
 def get_batch(request):
     if request.method != "GET":
         return JsonResponse({'data': "Error"})
-
     gfor = request.GET['gfor']
-
     if request.session['gname'] == "HOD" or request.session['gname'] == "HOI":
         campus = request.GET.get('campus')
         institute = request.GET.get('institute')
@@ -286,6 +296,8 @@ def boardcast(request):
         data = request.POST['message']
         sent_by = '501235'
         push_for = request.POST['gfor']
+        visibility = request.POST['visibility']
+        print(visibility)
         circular = 0
         if 'circular' in request.POST:
             circular = int(request.POST['circular'])
@@ -334,24 +346,59 @@ def boardcast(request):
             group += '[' + ', '.join(batch) + '],'
         if role != "":
             group += '[' + ', '.join(role) + '],'
-
         group += push_for
 
         notification = PushNotification.objects.create(title=title, body=body, data=data, group=group, sent_by=sent_by, type='Push')
+        notification.campus = campus
+        notification.institute = college
+        notification.department = department
+        notification.save()
         if circular:
             notification.type = 'Circular'
 
         if upload != '':
             notification.attachments = upload
             notification.save()
-        push_tokens = PushToken.objects.filter(userid__in=push_list, role=role_).values_list('token', flat=True)
-        try:
+        push_tokens = PushToken.objects.using('G-comm').all().values_list('token', flat=True)
+        print(push_tokens)
+        print(role_)
+        print(push_list)
+        push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_).values_list('token', flat=True)
+        push_client = PushClient()
+        print(push_tokens)
+        for push_token in push_tokens:
+            print(push_token)
+            push = PushNotificationStatus.objects.create(notification=notification, role=role_,
+                                                         userid=PushToken.objects.using('G-comm').get(token=push_token,
+                                                                                      role=role_).userid)
+            push.visibility_timer = int(visibility)
+            push.save()
 
+            if circular:
+                message = PushMessage(
+                    to=push_token,
+                    title=title,
+                    body=body,
+                    data={"id": push.id, "data": data},
+                )
+            else:
+                message = PushMessage(
+                    to=push_token,
+                    title=title,
+                    body=body,
+                    data={"id": None},
+                )
+
+            response = push_client.publish(message)
+            sweetify.success(request, "Push Notified Successfully!!")
+        try:
             push_client = PushClient()
             for push_token in push_tokens:
                 push = PushNotificationStatus.objects.create(notification=notification, role=role_,
                                                              userid=PushToken.objects.get(token=push_token,
                                                                                           role=role_).userid)
+                push.visibility_timer = visibility
+                push.save()
 
                 if circular:
                     message = PushMessage(
@@ -373,6 +420,7 @@ def boardcast(request):
         except Exception as e:
             print(str(e))
             sweetify.error(request, str(e))
+        #sweetify.success(request, "Message Sent Successfully")
     return redirect('/dashboard')
 
 
