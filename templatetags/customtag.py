@@ -23,7 +23,13 @@ def encrypting(id):
     encrypt_id = encrypt(id)
     return encrypt_id
 
+@register.simple_tag
+def datetime_local_with_min():
 
+
+    dt_now = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
+
+    return dt_now
 
 
 @register.filter(name='to_int')

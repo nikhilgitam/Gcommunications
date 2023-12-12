@@ -1,144 +1,143 @@
 <div class="row">
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="gfor">Target Audience *</label>
-                                        <select class="form-control"
-                                                name="gfor"
-                                                id="gfor_hod" required>
-                                            <option value="">Select Group For</option>
-                                            <option value="student">Student</option>
-                                            <option value="staff">Staff</option>
-                                            <option value="parent">Parent</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="campus">Campus *</label>
-                                        <select class="form-control " id="campus"
-                                                name="campus[]"
-                                              readonly  required>
-                                            <option value="{{ request.user.campus }}" selected>{{ request.user.campus }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="Institute">Institute *</label>
-                                        <select class="form-control " id="institute"
-                                                name="institute[]"
-                                               readonly  required>
-                                            <option value="{{ request.user.institution }}" selected>{{ request.user.institution }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div class="form-group">
-                                        <label for="Department">Department *</label>
-                                        <select class="form-control js-example-institute-multiple" multiple
-                                                name="department[]"  id="department"
-                                                required>
-                                            {% for d in dept %}
-                                            <option value="{{ d }}">{{ d }}</option>
-                                            {% endfor %}
-                                        </select>
-                                     <input type="checkbox" class="form-check-inline"
-                                               id="checkbox4">Select
-                                        All
-                                        <br>
-
-                                        <small id="deptHelp" class="form-text text-muted">Please Select
-                                            Department</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2" id="job_role_hod">
-                                    <div class="form-group">
-                                        <label for="role">Job Role *</label>
-                                        <select id="role" name="role" class="form-control"
-                                                aria-label="Department"
-                                                aria-describedby="roleHelp" required>
-                                            <option selected disabled>Select Role</option>
-                                            <option value="all">All</option>
-                                            <option value="T">Teaching</option>
-                                            <option value="N">Non Teaching</option>
-
-                                        </select>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Job Role</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" id="degree_div_hod">
-                                    <div class="form-group">
-                                        <label for="role">Degree *</label>
-                                        <select id="degree" name="degree[]" style="width:100%!important"
-                                                class="form-control js-example-institute-multiple"
-                                                aria-label="degree"
-                                                aria-describedby="batchHelp" multiple required>
-
-                                            <option value="UG">UG</option>
-                                            <option value="PG">PG</option>
-
-                                        </select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox_degree">Select
-                                        All
-                                        <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Job Role</small>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3" id="batch_div">
-                                    <div class="form-group">
-                                        <label for="role">Class/Year *</label>
-                                        <select id="batch" name="batch[]"
-                                                class="form-control js-example-institute-multiple"
-                                                aria-label="batch" style="width:100% !important"
-                                                aria-describedby="batchHelp" multiple required>
-                                            <option selected disabled>Select class</option>
-
-
-                                        </select>
-                                        <input type="checkbox" class="form-check-inline"
-                                               id="checkbox_class">Select
-                                        All
-                                        <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            year</small>
-                                    </div>
-                                        </div>
-
-       <div class="col-lg-2">
+    <div class="col-lg-2">
         <div class="form-group">
-            <label for="Department">For Application *</label>
-            <select class="form-control js-example-institute-multiple" name="message_type" id="message_type" multiple required>
-                <option value="G-Parent">G-Parent</option>
-                <option value="G-Staff">G-Staff</option>
-                <option value="G-Student">G-Student</option>
-                <option value="G-Learn">G-Learn</option>
+            <label for="gfor">Target Audience *</label>
+            <select class="form-control"
+                    name="gfor"
+                    id="gfor_hod" required>
+                <option value="">Select Group For</option>
+                <option value="student">Student (G-Student)</option>
+                <option value="staff">Staff (G-Staff)</option>
+                <option value="parent">Parent (G-Parent)</option>
             </select>
         </div>
     </div>
+    <div class="col-lg-2">
+        <div class="form-group">
+            <label for="campus">Campus *</label>
+            <select class="form-control " id="campus"
+                    name="campus[]"
+                    readonly required>
+                <option value="{{ request.user.campus }}" selected>{{ request.user.campus }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group">
+            <label for="Institute">Institute *</label>
+            <select class="form-control " id="institute"
+                    name="institute[]"
+                    readonly required>
+                <option value="{{ request.user.institution }}" selected>{{ request.user.institution }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <div class="form-group">
+            <label for="Department">Department *</label>
+            <select class="form-control js-example-institute-multiple" multiple
+                    name="department[]" id="department"
+                    required>
+                {% for d in dept %}
+                    <option value="{{ d }}">{{ d }}</option>
+                {% endfor %}
+            </select>
+            <input type="checkbox" class="form-check-inline"
+                   id="checkbox4">Select
+            All
+            <br>
+
+            <small id="deptHelp" class="form-text text-muted">Please Select
+                Department</small>
+        </div>
+    </div>
+    <div class="col-lg-2" id="job_role_hod">
+        <div class="form-group">
+            <label for="role">Job Role *</label>
+            <select id="role" name="role" class="form-control"
+                    aria-label="Department"
+                    aria-describedby="roleHelp" required>
+                <option selected disabled>Select Role</option>
+                <option value="all">All</option>
+                <option value="T">Teaching</option>
+                <option value="N">Non Teaching</option>
+
+            </select>
+            <small id="roleHelp" class="form-text text-muted">Please Select
+                Job Role</small>
+        </div>
+    </div>
+    <div class="col-lg-3" id="degree_div_hod">
+        <div class="form-group">
+            <label for="role">Degree *</label>
+            <select id="degree" name="degree[]" style="width:100%!important"
+                    class="form-control js-example-institute-multiple"
+                    aria-label="degree"
+                    aria-describedby="batchHelp" multiple required>
+
+                <option value="UG">UG</option>
+                <option value="PG">PG</option>
+
+            </select>
+            <input type="checkbox" class="form-check-inline"
+                   id="checkbox_degree">Select
+            All
+            <br>
+            <small id="roleHelp" class="form-text text-muted">Please Select
+                Job Role</small>
+        </div>
+    </div>
+    <div class="col-lg-3" id="batch_div">
+        <div class="form-group">
+            <label for="role">Class/Year *</label>
+            <select id="batch" name="batch[]"
+                    class="form-control js-example-institute-multiple"
+                    aria-label="batch" style="width:100% !important"
+                    aria-describedby="batchHelp" multiple required>
+                <option selected disabled>Select class</option>
+
+
+            </select>
+            <input type="checkbox" class="form-check-inline"
+                   id="checkbox_class">Select
+            All
+            <br>
+            <small id="roleHelp" class="form-text text-muted">Please Select
+                year</small>
+        </div>
+    </div>
+
+    {#       <div class="col-lg-2">#}
+    {#        <div class="form-group">#}
+    {#            <label for="Department">For Application *</label>#}
+    {#            <select class="form-control js-example-institute-multiple" name="message_type" id="message_type" multiple required>#}
+    {#                <option value="G-Parent">G-Parent</option>#}
+    {#                <option value="G-Staff">G-Staff</option>#}
+    {#                <option value="G-Student">G-Student</option>#}
+    {#                <option value="G-Learn">G-Learn</option>#}
+    {#            </select>#}
+    {#        </div>#}
+    {#    </div>#}
 
 </div>
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         $('#degree_div_hod').hide()
         $('#job_role_hod').hide()
         $('#batch_div_hod').hide()
     })
 
-    $(document).on('change','#gfor_hod',function (){
-       var for_val = $(this).val()
+    $(document).on('change', '#gfor_hod', function () {
+        var for_val = $(this).val()
         $('#degree').selected = false;
         if (for_val === "staff") {
             $('#degree_div_hod').hide()
             $('#job_role_hod').show()
             $('#batch_div_hod').hide()
 
-        }
-        else{
-             $('#degree_div_hod').show()
+        } else {
+            $('#degree_div_hod').show()
             $('#job_role_hod').hide()
             $('#batch_div_hod').hide()
         }

@@ -295,9 +295,8 @@ def boardcast(request):
         data = request.POST['message']
         sent_by = '501235'
         push_for = request.POST['gfor']
-        from_date = request.POST['from_date']
-        to_date = request.POST['to_date']
-        schedule = request.POST['schedule']
+        visibility = request.POST['visibility']
+        schedule = request.POST['schedule_dt']
         message_type = request.POST['message_type']
         print("message_type")
         print(message_type)
@@ -361,10 +360,8 @@ def boardcast(request):
         notification.campus = campus
         notification.institute = college
         notification.department = department
-        if schedule == "on":
+        if schedule:
             notification.is_schedule = True
-
-
         notification.save()
         if circular:
             notification.type = 'Circular'
@@ -383,15 +380,17 @@ def boardcast(request):
                     push = PushNotificationStatus.objects.create(notification=notification, role=role_,
                                                                  userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                               role=role_).userid)
-                    push.from_date = from_date
-                    push.to_date = to_date
+                    push.visibility = visibility
+                    if schedule:
+                        push.scheduled_time = schedule
                     push.repeat_message = message_type
                     push.save()
                     web = WebNotificationStatus.objects.create(notification=notification, role=role_,
                                                                  userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                               role=role_).userid)
-                    web.from_date = from_date
-                    web.to_date = to_date
+                    web.visibility = visibility
+                    if schedule:
+                        web.scheduled_time = schedule
                     web.repeat_message = message_type
                     web.save()
 
@@ -412,6 +411,7 @@ def boardcast(request):
 
                     response = push_client.publish(message)
                 sweetify.success(request, "Push Notified Successfully!!")
+            sweetify.success(request, "Sent Successfully!!")
         except Exception as e:
             print(str(e))
             sweetify.error(request, str(e))

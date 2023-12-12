@@ -53,7 +53,7 @@
                                     <td>{{ i.type }}</td>
                                     <td>{{ i.body }}</td>
                                     <td>{{ i.data|default_if_none:'' }}</td>
-                                    <td>{{ i.attachments }}</td>
+                                    <td style="text-align: center">{% if i.attachments %}<a href="/media/{{ i.attachments }}" target="_blank" ><i class="fa fa-file"></i></a>{% else %} - {% endif %} </td>
                                     <td>{{ i.sent_by|default_if_none:'' }}</td>
 
 
