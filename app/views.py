@@ -290,14 +290,23 @@ def get_email_ids(request):
 
 def boardcast(request):
     if request.method == "POST":
-
         title = request.POST['title']
         body = request.POST['body']
         data = request.POST['message']
         sent_by = '501235'
         push_for = request.POST['gfor']
-        visibility = request.POST['visibility']
-        print(visibility)
+        from_date = request.POST['from_date']
+        to_date = request.POST['to_date']
+        schedule = request.POST['schedule']
+        message_type = request.POST['message_type']
+        print("message_type")
+        print(message_type)
+        print("schedule")
+        print(schedule)
+        print("schedule")
+
+
+
         circular = 0
         if 'circular' in request.POST:
             circular = int(request.POST['circular'])
@@ -352,6 +361,10 @@ def boardcast(request):
         notification.campus = campus
         notification.institute = college
         notification.department = department
+        if schedule == "on":
+            notification.is_schedule = True
+
+
         notification.save()
         if circular:
             notification.type = 'Circular'
@@ -370,8 +383,17 @@ def boardcast(request):
                     push = PushNotificationStatus.objects.create(notification=notification, role=role_,
                                                                  userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                               role=role_).userid)
-                    push.visibility_timer = visibility
+                    push.from_date = from_date
+                    push.to_date = to_date
+                    push.repeat_message = message_type
                     push.save()
+                    web = WebNotificationStatus.objects.create(notification=notification, role=role_,
+                                                                 userid=PushToken.objects.using('G-comm').get(token=push_token,
+                                                                                              role=role_).userid)
+                    web.from_date = from_date
+                    web.to_date = to_date
+                    web.repeat_message = message_type
+                    web.save()
 
                     if circular:
                         message = PushMessage(

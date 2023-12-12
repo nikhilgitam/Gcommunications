@@ -39,6 +39,54 @@
                             {% elif request.session.gname == "DEAN" %}
                                 {% include 'role_wise/dean.html' %}
                             {% endif %}
+                        {% load customtag %}
+                        <div class="row">
+                            <div class="col-lg-2">
+                            <div class="form-group">
+         <label for="tln" >Visibility Message *</label>
+                                <select name="visibility" class="form-control" name="visibility">
+                                    <option value="">Select</option>
+                                    <option value="1">1 Day</option>
+                                    <option value="2">2 Days</option>
+                                    <option value="3">3 Days</option>
+                                    <option value="4">4 Days</option>
+                                    <option value="5">5 Days</option>
+                                    <option value="6">6 Days</option>
+                                    <option value="1W">7 Days</option>
+                                    <option value="2W">2 Weeks</option>
+                                    <option value="1M">1 Month</option>
+                                </select>
+
+                            </div>
+                        </div>
+{#                          <div class="col-lg-2">#}
+{#                            <div class="form-group">#}
+{#                                <label for="Department">From *</label>#}
+{#                                <input type="date" min="{{ exclude_today|from_current_data }}" value="{{ exclude_today|from_current_data }}" readonly class="form-control" id="from_date" name="from_date" required>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                         <div class="col-lg-2">#}
+{#                            <div class="form-group">#}
+{#                                <label for="Department">To *</label>#}
+{#                                <input type="date" class="form-control"  min="{{ exclude_today|from_current_data }}" id="to_date" name="to_date" required>#}
+{#                            </div>#}
+{#                        </div>#}
+                                <div class="col-lg-2">
+        <div class="form-group">
+            <label for="Department">Repetition *</label>
+            <select class="form-control" name="message_type" id="message_type" required>
+                <option value="">Select</option>
+                <option value="1">One Time</option>
+                <option value="2">Daily</option>
+                <option value="3">Weekly</option>
+                <option value="4">Monthly</option>
+            </select>
+        </div>
+                                    <input type="hidden" name="schedule_dt" id="saved_schedule">
+    </div>
+
+                            </div>
+
                             <div class="row">
 
                                 <div class="col-lg-6" id="notification">
@@ -82,7 +130,8 @@
                                         <small id="upload" class="form-text text-muted">Please Upload any
                                             attachment</small>
                                     </div>
-                                       <button type="submit" class="btn btn-primary">Submit</button>
+                                       <button type="submit" id="send" class="btn btn-primary">Send Now</button> &nbsp; &nbsp; &nbsp;
+                                       <button  type="button" onClick="myModal()" class="btn btn-primary">Schedule</button>
                                 </div>
                                 <div class="col-lg-6" id="preview">
                                     <h3 class="sub-title">Preview</h3>
@@ -148,12 +197,49 @@
         </section>
 
     </section>
+     <div class="modal" id="myModal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Schedule Notification/Circular</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path
+                                    d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Schedule DateTime</label>
+                        <input type="datetime-local" class="form-control" id="schedule_dt" required>
+                            </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" id="save_schedule" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 </div>
+
 {% include 'includes/scripts.html' %}
 {% load sweetify %}
 {% sweetify %}
 <script>
+    function myModal(){
+        $('#myModal').modal('show')
+    }
 
 
     function showContent() {
@@ -248,9 +334,12 @@
     }
 
 
+
+
 </script>
 
 <script>
+
 
 
     $(document).ready(function () {
@@ -605,15 +694,12 @@
             if ($(this).is(':checked')) { //select all
                 arr = []
                 $("#department").find("option").each(function () {
-
                     $(this).attr('selected', 'selected');
                     arr.push($(this).val())
-
                 });
                 $('#department').val(arr)
             } else { //deselect all
                 $("#department").find("option").each(function () {
-
                     $(this).removeAttr("selected");
                 });
 
@@ -643,6 +729,21 @@
 
     });
 
+        $(document).on('change', '#tln', function () {
+          var isChecked = $('#tln').prop('checked');
+             if (isChecked) {
+             $('#from_date').prop('readonly', false);
+        } else {
+            var today = new Date().toISOString().split('T')[0];
+            $('#from_date').val(today);
+            $('#from_date').prop('readonly', true);
+        }
+
+        });
+
+
+
+
     $(document).on('change', 'input[name=circular]', function () {
 
         if ($(this).prop('checked')) {
@@ -659,5 +760,29 @@
             $(this).val(0)
         }
 
+    })
+
+
+
+               $(document).on('change', 'input[name=to_date]', function () {
+
+               var from_date = $('#from_date').val();
+               var to_date = $(this).val();
+             if (from_date > to_date) {
+                        alert("From date should be less than To date");
+                        $(this).val("");
+             }
+           });
+    $(document).on('click','#save_schedule',function (){
+        var sdt = $('#schedule_dt').val()
+        if (sdt === ""){
+            alert('Please schedule Date and Time');
+            return false;
+        }
+        else{
+            $('#saved_schedule').val(sdt);
+            $('#myModal').modal('hide');
+            $('#send').click();
+        }
     })
 </script>

@@ -106,18 +106,7 @@
                                             year</small>
                                     </div>
                                         </div>
-    <div class="col-lg-2">
-        <div class="form-group">
-            <label for="Department">Message Type *</label>
-            <select class="form-control" name="message_type" id="message_type" required>
-                <option value="">Select</option>
-                <option value="1">One Time</option>
-                <option value="2">Daily</option>
-                <option value="3">Weekly</option>
-                <option value="4">Monthly</option>
-            </select>
-        </div>
-    </div>
+
        <div class="col-lg-2">
         <div class="form-group">
             <label for="Department">For Application *</label>
@@ -129,13 +118,7 @@
             </select>
         </div>
     </div>
-    {% load customtag %}
-    <div class="col-lg-2">
-        <div class="form-group">
-            <label for="Department">Visibility Period *</label>
-            <input type="date" min="{{ exclude_today|from_current_data }}" class="form-control" name="visible_period">
-        </div>
-    </div>
+
 </div>
 
 <script>
