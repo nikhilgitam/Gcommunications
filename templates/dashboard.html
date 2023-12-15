@@ -502,16 +502,12 @@
             var institute = $('#institute').val();
             var department = $('#department').val();
             var degree = $('#degree').val();
-            console.log(gfor)
-            console.log(campus)
-            console.log(institute)
-            console.log(department)
-            console.log(degree)
+
             $('#batch').empty()
             $('#sem').empty()
             if (gfor === "student" || gfor === "parent") {
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: "{%url 'get_batch' %}",
                     data: {
                         'campus': campus,

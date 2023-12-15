@@ -207,30 +207,26 @@ def get_department(request):
     df2 = list(filter(None, df2))
     return JsonResponse({'data': df2})
 
-
+@csrf_exempt
 def get_batch(request):
-    if request.method != "GET":
-        return JsonResponse({'data': "Error"})
-    gfor = request.GET['gfor']
+
+    gfor = request.POST['gfor']
     if request.session['gname'] == "HOD" or request.session['gname'] == "HOI":
-        campus = request.GET.get('campus')
-        institute = request.GET.get('institute')
+        campus = request.POST.get('campus')
+        institute = request.POST.get('institute')
         if request.session['gname'] == "HOD":
-            department = request.GET.get('department')
+            department = request.POST.get('department')
             department = [department]
         else:
-            department = request.GET.getlist('department[]')
+            department = request.POST.getlist('department[]')
         campus = [campus]
         institute = [institute]
     else:
-        campus = request.GET.getlist('campus[]')
-        institute = request.GET.getlist('institute[]')
-        department = request.GET.getlist('department[]')
-    degree = request.GET.getlist('degree[]')
-    print(campus)
-    print(institute)
-    print(department)
-    print(degree)
+        campus = request.POST.getlist('campus[]')
+        institute = request.POST.getlist('institute[]')
+        department = request.POST.getlist('department[]')
+    degree = request.POST.getlist('degree[]')
+
     if gfor == "student" or gfor == "parent":
         df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                           dept_code__in=department, status="S",
