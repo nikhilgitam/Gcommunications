@@ -43,7 +43,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-2" id="job_role_hod">
+                                <div class="col-lg-2" id="role_div">
                                     <div class="form-group">
                                         <label for="role">Job Role *</label>
                                         <select id="role" name="role" class="form-control"
@@ -117,7 +117,7 @@
 <script>
     $(document).ready(function (){
         $('#degree_div_hod').hide()
-        $('#job_role_hod').hide()
+        $('#role_div').hide()
         $('#batch_div_hod').hide()
     })
 
@@ -126,13 +126,13 @@
         $('#degree').selected = false;
         if (for_val === "staff") {
             $('#degree_div_hod').hide()
-            $('#job_role_hod').show()
+            $('#role_div').show()
             $('#batch_div_hod').hide()
 
         }
         else{
              $('#degree_div_hod').show()
-            $('#job_role_hod').hide()
+            $('#role_div').hide()
             $('#batch_div_hod').hide()
         }
     });

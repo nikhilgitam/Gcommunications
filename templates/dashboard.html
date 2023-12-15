@@ -1,6 +1,17 @@
 {% include 'includes/base.html' %}
 {% include 'includes/style.html' %}
+
 </head>
+<style>
+    html, body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+    .home-section{
+        overflow-x: hidden !important;
+    }
+</style>
+
 
 <body>
 <div id="wrapper">
@@ -355,7 +366,6 @@
             $('#sem').empty();
             $('#batch_div').hide();
             $('#degree_div').hide();
-
             $('#role_div').hide();
             $('#checkbox2').prop('checked', false);
             var campus = ['VSP', 'HYD', 'BLR']
@@ -451,7 +461,16 @@
         });
 
         $(document).on('change', '#department', function () {
-            var gfor = $('#gfor').val();
+            var role = "{{request.session.gname}}"
+            if(role === "HOD" || role === "HOI"){
+                var gfor = $('#gfor_hod').val();
+
+            }
+            else{
+                var gfor = $('#gfor').val();
+            }
+
+
             var campus = $('#campus').val();
             var institute = $('#institute').val();
             var department = $('#department').val();
@@ -477,6 +496,7 @@
             else{
                 var gfor = $('#gfor').val();
             }
+
 
             var campus = $('#campus').val();
             var institute = $('#institute').val();
@@ -516,6 +536,7 @@
                                 var newOption = new Option(data.text, data.id);
                                 $('#batch').append(newOption);
                                 $('#batch_div').show();
+
                             }
                         } else {
                             $('#department').empty()
