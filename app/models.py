@@ -908,7 +908,7 @@ class PushNotificationStatus(models.Model):
 
 
 class WebNotificationStatus(models.Model):
-    notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True,name="web_notifications")
+    notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True,related_name="web_notification")
     userid = models.CharField(max_length=500, null=True, blank=True)
     status = models.BooleanField(default=False)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
