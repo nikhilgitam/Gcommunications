@@ -897,7 +897,6 @@ class PushNotification(models.Model):
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
 
-
 class PushNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True)
     userid = models.CharField(max_length=500, null=True, blank=True)
@@ -906,7 +905,6 @@ class PushNotificationStatus(models.Model):
     visibility = models.CharField(max_length=10,null=True, blank=True)
     visible_flag = models.BooleanField(default=True)
     role = models.CharField(max_length=2, null=True, blank=True)
-
 
 
 class WebNotificationStatus(models.Model):

@@ -360,6 +360,8 @@ def boardcast(request):
         notification.campus = campus
         notification.institute = college
         notification.department = department
+        notification.scheduled_time = schedule
+        notification.repeat_message = message_type
         if schedule:
             notification.is_schedule = True
         notification.save()
@@ -381,17 +383,12 @@ def boardcast(request):
                                                                  userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                               role=role_).userid)
                     push.visibility = visibility
-                    if schedule:
-                        push.scheduled_time = schedule
-                    push.repeat_message = message_type
                     push.save()
                     web = WebNotificationStatus.objects.create(notification=notification, role=role_,
                                                                  userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                               role=role_).userid)
                     web.visibility = visibility
-                    if schedule:
-                        web.scheduled_time = schedule
-                    web.repeat_message = message_type
+
                     web.save()
 
                     if circular:
