@@ -289,18 +289,11 @@ def boardcast(request):
         title = request.POST['title']
         body = request.POST['body']
         data = request.POST['message']
-        sent_by = '501235'
+        sent_by = request.user.u_id
         push_for = request.POST['gfor']
         visibility = request.POST['visibility']
         schedule = request.POST['schedule_dt']
         message_type = request.POST['message_type']
-        print("message_type")
-        print(message_type)
-        print("schedule")
-        print(schedule)
-        print("schedule")
-
-
 
         circular = 0
         if 'circular' in request.POST:
@@ -356,6 +349,8 @@ def boardcast(request):
         notification.campus = campus
         notification.institute = college
         notification.department = department
+        notification.role = request.user.designation
+        notification.user = request.user.u_id
         if schedule:
             notification.scheduled_time = schedule
         notification.repeat_message = message_type
