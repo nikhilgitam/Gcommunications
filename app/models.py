@@ -880,6 +880,8 @@ class Dean(models.Model):
 
 class PushNotification(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
+    role = models.CharField(max_length=200, null=True, blank=True)
+    user = models.CharField(max_length=100, null=True, blank=True)
     body = models.TextField(null=True, blank=True)
     title = models.TextField(null=True, blank=True)
     data = models.TextField(null=True, blank=True)

@@ -445,7 +445,6 @@ def delete_group(request):
 
 def update_group(request):
     try:
-
         eid = request.GET['emailid']
         print("hello")
         print(eid)
