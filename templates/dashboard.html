@@ -367,7 +367,12 @@
             $('#batch_div').hide();
             $('#degree_div').hide();
             $('#role_div').hide();
+            $('#checkbox1').prop('checked', false);
             $('#checkbox2').prop('checked', false);
+            $('#checkbox3').prop('checked', false);
+            $('#checkbox4').prop('checked', false);
+            $('#checkbox_degree').prop('checked', false);
+            $('#checkbox_class').prop('checked', false);
             var campus = ['VSP', 'HYD', 'BLR']
             for (var i = 0; i < campus.length; i++) {
                 var data = {
@@ -387,6 +392,7 @@
             $('#institute').empty()
             $('#batch').empty()
             $('#batch_div').hide();
+            $('#overlay').show();
             var campus = $('#campus').val();
             var gfor = $('#gfor').val();
             //console.log(campus)
@@ -415,6 +421,7 @@
                     } else {
                         $('#institute').empty()
                     }
+                    $('#overlay').hide();
 
                 }
 
@@ -428,6 +435,7 @@
             $('#department').empty()
             $('#batch').empty()
             $('#sem').empty()
+            $('#overlay').show();
 
             var campus = $('#campus').val();
             var institute = $('#institute').val();
@@ -454,13 +462,15 @@
                             $('#department').append(newOption);
                         }
                     } else {
-                        $('#institute').empty()
+                        {#$('#institute').empty()#}
                     }
+                    $('#overlay').hide();
                 }
             });
         });
 
         $(document).on('change', '#department', function () {
+
             var role = "{{request.session.gname}}"
             if(role === "HOD" || role === "HOI"){
                 var gfor = $('#gfor_hod').val();
@@ -686,27 +696,41 @@
             $('#degree').trigger('change');
         });
 
+
+
         $(document).on('click', '#checkbox3', function () {
-            if ($(this).is(':checked')) { //select all
-                arr = []
-                $("#institute").find("option").each(function () {
 
-                    $(this).attr('selected', 'selected');
-                    arr.push($(this).val())
 
-                });
-                $('#institute').val(arr)
-            } else { //deselect all
-                $("#institute").find("option").each(function () {
 
-                    $(this).removeAttr("selected");
-                });
+            if ($(this).is(':checked')) {
+                $("#institute > option").prop("selected", true);
+                $("#institute").trigger("change");
+            } else {
 
+                $("#institute > option").prop("selected", false);
+                $("#institute").trigger("change")
 
             }
-            $('#institute').trigger('change');
-
         });
+
+        {#$(document).on('click', '#checkbox3', function () {#}
+        {#    if ($(this).is(':checked')) { //select all#}
+        {#        arr = []#}
+        {#        $("#institute").find("option").each(function () {#}
+        {##}
+        {#            $(this).attr('selected', 'selected');#}
+        {#            arr.push($(this).val())#}
+        {##}
+        {#        });#}
+        {#        $('#institute').val(arr)#}
+        {#    } else { //deselect all#}
+        {#        $("#institute").find("option").each(function () {#}
+        {#            $(this).removeAttr("selected");#}
+        {#        });#}
+        {#    }#}
+        {#    $('#institute').trigger('change');#}
+        {##}
+        {#});#}
 
         $(document).on('click', '#checkbox4', function () {
             if ($(this).is(':checked')) { //select all
