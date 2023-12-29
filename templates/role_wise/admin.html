@@ -10,6 +10,8 @@
                                             <option value="student">Student (G-Student)</option>
                                             <option value="staff">Staff (G-Staff)</option>
                                             <option value="parent">Parent (G-Parent)</option>
+                                           {% if request.session.gname == "ADMIN" or request.session.gname == "DIRECTOR" %} <option value="directors">Directors</option>
+                                         {% endif %}
                                         </select>
                                     </div>
                                 </div>
@@ -17,7 +19,7 @@
                                     <div class="form-group">
                                         <label for="campus">Campus *</label>
                                         <select class="form-control js-example-institute-multiple"
-                                           readonly name="campus[]"
+                                            name="campus[]"
                                                 id="campus" multiple required>
                                             <option value="VSP">VSP</option>
                                             <option value="HYD">HYD</option>

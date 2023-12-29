@@ -99,7 +99,7 @@ DATABASES = {
     },
     'G-comm': {
         'ENGINE': 'mssql',
-        'NAME': 'Gcommunications',
+         'NAME': 'Gcommunications-test',
         'USER': 'sa',
         'PASSWORD': 'G1t2m@PythonDB_@#',
         'HOST': '192.168.64.191',

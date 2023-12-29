@@ -11,6 +11,7 @@ class User(AbstractUser):
     institution = models.CharField(max_length=100, null=True, blank=True)
     dept_code = models.CharField(max_length=100, null=True, blank=True)
     u_id = models.CharField(max_length=50, blank=True, null=True)
+    category = models.CharField(max_length=50, blank=True, null=True)
     groups = models.ManyToManyField(
         Group,
         verbose_name='groups',

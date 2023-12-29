@@ -363,6 +363,7 @@ def boardcast(request):
         notification.save()
         if circular:
             notification.type = 'Circular'
+            notification.save()
 
         if upload != '':
             notification.attachments = upload
@@ -380,11 +381,17 @@ def boardcast(request):
                                                                                           role=role_).userid)
                 push.visibility = visibility
                 push.save()
+                if request.user.category:
+                    push.category = request.user.category
+                    push.save()
                 web = WebNotificationStatus.objects.create(notification=notification, role=role_,
                                                              userid=PushToken.objects.using('G-comm').get(token=push_token,
                                                                                           role=role_).userid)
                 web.visibility = visibility
                 web.save()
+                if request.user.category:
+                    web.category = request.user.category
+                    web.save()
 
                 if circular:
                     message = PushMessage(
