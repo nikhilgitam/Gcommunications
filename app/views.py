@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-
+import pandas as pd
 from email.message import EmailMessage
 from email.mime.text import MIMEText
 import base64
@@ -79,6 +79,10 @@ def index(request):
 
 def ADMIN(request):
     request.session['gname'] = "ADMIN"
+    return redirect('dashboard')
+
+def DIRECTOR(request):
+    request.session['gname'] = "DIRECTOR"
     return redirect('dashboard')
 
 def HOD(request):
@@ -465,3 +469,8 @@ def boardcast_1(request):
         subject = request.POST['subject']
 
     return redirect('index')
+
+
+def add_user_d(request):
+    pass
+

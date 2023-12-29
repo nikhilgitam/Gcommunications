@@ -5,6 +5,7 @@ urlpatterns = [
     path('', login2, name="login2"),
     path('index', index, name="index"),
     path('ADMIN', ADMIN, name="ADMIN"),
+    path('DIRECTOR', DIRECTOR, name="DIRECTOR"),
     path('HOD', HOD, name="HOD"),
     path('HOI', HOI, name="HOI"),
     path('CAMPUS', CAMPUS, name="CAMPUS"),

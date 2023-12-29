@@ -39,7 +39,7 @@
                     <div class="box-container">
                         <form method="post" action="/broadcast" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {% if request.session.gname == "ADMIN" %}
+                            {% if request.session.gname == "ADMIN" or  request.session.gname == "DIRECTOR"  %}
                                 {% include 'role_wise/admin.html' %}
                             {% elif request.session.gname == "HOD" %}
                                 {% include 'role_wise/hod.html' %}
@@ -404,17 +404,13 @@
                     //console.log(data.data)
                     //console.log(campus.length)
                     ins = data.data
-
                     $('#institute').empty()
                     if (campus.length > 0) {
-
-
                         for (var i = 0; i < ins.length; i++) {
                             var data = {
                                 id: ins[i],
                                 text: ins[i]
                             };
-
                             var newOption = new Option(data.text, data.id);
                             $('#institute').append(newOption);
                         }
@@ -615,8 +611,6 @@
                     $(this).removeAttr("selected");
                     $('#batch').removeAttr("selected");
                     $('#degree').removeAttr("selected");
-
-
                 });
                 $('#checkbox_class').prop('checked', false);
                 $('#checkbox_degree').prop('checked', false);
