@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 import base64
 
 from exponent_server_sdk import PushMessage, PushClient
-
+from users.models import *
 from app.models import *
 from datetime import datetime
 
@@ -190,7 +190,7 @@ def get_institute(request):
         institute = list(institute)
         institute = list(filter(None, institute))
     if 'directors' in gfor:
-        institute = User.objects.using('GITAM').filter(campus__in=campus,userOf__group__name='DIRECTOR').exclude(
+        institute = User.objects.filter(campus__in=campus,userOf__group__name='DIRECTOR').exclude(
             institution__isnull=True).distinct().values_list('institution', flat=True)
         institute = list(institute)
         institute = list(filter(None, institute))
@@ -220,7 +220,7 @@ def get_department(request):
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
     if 'directors' in gfor:
-        df2 = User.objects.using('GITAM').filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
+        df2 = User.objects.filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
             'dept_code', flat=True).distinct()
     if 'staff' in gfor:
         df2 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
@@ -359,8 +359,9 @@ def boardcast(request):
             role_ = 'S'
         if "parent" in push_for:
             role_ = 'P'
-        if "staff" in push_for:
+        if ("staff" in push_for) or ("directors" in push_for):
             role_ = 'E'
+
 
         if ('student' in push_for) or ('parent' in push_for):
             students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
@@ -377,6 +378,11 @@ def boardcast(request):
             if role != "":
                 employees.filter(job_status=role)
             push_list = list(employees.values_list('empid', flat=True))
+        if 'directors' in push_for:
+            ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
+                                                                     dept_code__in=department).values_list('u_id', flat=True)
+
+            push_list = list(ddata1)
         if all(item in push_for for item in ['student', 'parent','staff']):
             employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
                                                                      dept_code__in=department)

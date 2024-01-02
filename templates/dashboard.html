@@ -503,6 +503,12 @@
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
+            if (gfor.includes('directors')){
+                  $('#role_div').hide();
+                $('#role').prop('required', false);
+                $('#degree').prop('required', false);
+                $('#batch').prop('required', false);
+            }
         });
 
         $(document).on('change', '#degree', function () {
