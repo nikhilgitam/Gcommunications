@@ -116,8 +116,8 @@ def get_groupname(request):
 
 
 def view_history(request):
-    data = PushNotification.objects.all().values('group', 'body', 'title', 'sent_by',
-                                                 'dt_time', 'data', 'attachments','type')
+    data = PushNotification.objects.all().values('group', 'body', 'title', 'sent_by','id',
+                                                 'dt_time', 'data', 'attachments','type').order_by('-id')
     context = {"data": data}
     return render(request, 'history.html', context)
 
@@ -178,13 +178,7 @@ def get_institute(request):
     campus = request.GET.getlist('campus[]')
     gfor = request.GET.getlist('gfor[]')
 
-    if 'student' in gfor:
-        institute = StudentMaster.objects.using('GITAM').filter(campus__in=campus, status="S").exclude(
-            college_code__isnull=True).distinct().values_list('college_code', flat=True)
-        institute = list(institute)
-        institute = list(filter(None, institute))
-
-    if 'parent' in gfor:
+    if ('student' in gfor) or ('parent' in gfor):
         institute = StudentMaster.objects.using('GITAM').filter(campus__in=campus, status="S").exclude(
             college_code__isnull=True).distinct().values_list('college_code', flat=True)
         institute = list(institute)
@@ -193,6 +187,11 @@ def get_institute(request):
     if 'staff' in gfor:
         institute = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, emp_status="A").exclude(
             college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
+    if 'directors' in gfor:
+        institute = User.objects.using('GITAM').filter(campus__in=campus,userOf__group__name='DIRECTOR').exclude(
+            institution__isnull=True).distinct().values_list('institution', flat=True)
         institute = list(institute)
         institute = list(filter(None, institute))
 
@@ -220,6 +219,9 @@ def get_department(request):
     gfor = request.GET.getlist('gfor[]')
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
+    if 'directors' in gfor:
+        df2 = User.objects.using('GITAM').filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
+            'dept_code', flat=True).distinct()
     if 'staff' in gfor:
         df2 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                            emp_status="A").exclude(dept_code__isnull=True).values_list(

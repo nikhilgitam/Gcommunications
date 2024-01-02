@@ -928,3 +928,5 @@ class PushToken(models.Model):
     role = models.CharField(max_length=1, null=True, blank=True)
     is_active = models.BooleanField(default=False)
 
+class Directors(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
