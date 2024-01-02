@@ -176,45 +176,80 @@ def get_institute(request):
     if request.method != "GET":
         return JsonResponse({'data': "Error"})
     campus = request.GET.getlist('campus[]')
-    gfor = request.GET['gfor']
-    if gfor == "staff":
-        institute = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, emp_status="A").exclude(
-            college_code__isnull=True).distinct().values_list('college_code', flat=True)
-    else:
+    gfor = request.GET.getlist('gfor[]')
+
+    if 'student' in gfor:
         institute = StudentMaster.objects.using('GITAM').filter(campus__in=campus, status="S").exclude(
             college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
 
-    institute = list(institute)
-    institute = list(filter(None, institute))
+    if 'parent' in gfor:
+        institute = StudentMaster.objects.using('GITAM').filter(campus__in=campus, status="S").exclude(
+            college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
+
+    if 'staff' in gfor:
+        institute = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, emp_status="A").exclude(
+            college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
+
+    if all(item in gfor for item in ['staff', 'student']):
+        institute1 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, emp_status="A").exclude(
+            college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = StudentMaster.objects.using('GITAM').filter(campus__in=campus, status="S").exclude(
+            college_code__isnull=True).distinct().values_list('college_code', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
+        institute1 = list(institute1)
+        institute1 = list(filter(None, institute1))
+        institute = institute1 + institute
+        institute = list(set(institute))
+
     if request.session['gname'] == "DEAN":
         intersection = [value for value in institute if value in request.session['dean_list']]
         return JsonResponse({'data': intersection})
-
     return JsonResponse({'data': institute})
 
 
 def get_department(request):
     if request.method != "GET":
         return JsonResponse({'data': "Error"})
-    gfor = request.GET['gfor']
+    gfor = request.GET.getlist('gfor[]')
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
-    if gfor == "staff":
+    if 'staff' in gfor:
         df2 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                            emp_status="A").exclude(dept_code__isnull=True).values_list(
             'dept_code', flat=True).distinct()
-    else:
+    if 'student' in gfor:
         df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                           status="S").exclude(dept_code__isnull=True).values_list(
             'dept_code', flat=True).distinct()
+    if all(item in gfor for item in ['staff', 'student']):
+        df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
+                                                          status="S").exclude(dept_code__isnull=True).values_list(
+            'dept_code', flat=True).distinct()
+        df3 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
+                                                           emp_status="A").exclude(dept_code__isnull=True).values_list(
+            'dept_code', flat=True).distinct()
+        df2 = list(df2)
+        df2 = list(filter(None, df2))
+
+        df3 = list(df3)
+        df3 = list(filter(None, df3))
+        df2 = df2 + df3
+        df2 = set(df2)
+
     df2 = list(df2)
     df2 = list(filter(None, df2))
     return JsonResponse({'data': df2})
 
 @csrf_exempt
 def get_batch(request):
-
-    gfor = request.POST['gfor']
+    gfor = request.POST.getlist('gfor[]')
     if request.session['gname'] == "HOD" or request.session['gname'] == "HOI":
         campus = request.POST.get('campus')
         institute = request.POST.get('institute')
@@ -231,7 +266,7 @@ def get_batch(request):
         department = request.POST.getlist('department[]')
     degree = request.POST.getlist('degree[]')
 
-    if gfor == "student" or gfor == "parent":
+    if ('student' in gfor) or ('parent' in gfor):
         df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                           dept_code__in=department, status="S",
                                                           degree_code__in=degree).exclude(
@@ -245,15 +280,15 @@ def get_batch(request):
 def get_student_emails(request):
     if request.method != "GET":
         return JsonResponse({'data': "Error"})
-    gfor = request.GET['gfor']
+    gfor = request.GET.getlist('gfor[]')
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
     department = request.GET.getlist('department[]')
     degree = request.GET.getlist('degree[]')
     batch = request.GET.getlist('batch[]')
-    print(batch)
 
-    if gfor == "student":
+
+    if 'student' in  gfor:
         df2 = StudentMaster.objects.using('GITAM').filter(campus__in=campus, college_code__in=institute,
                                                           dept_code__in=department, class_field__in=batch,
                                                           degree_code__in=degree, status="S").exclude(
@@ -294,7 +329,7 @@ def boardcast(request):
         body = request.POST['body']
         data = request.POST['message']
         sent_by = request.user.u_id
-        push_for = request.POST['gfor']
+        push_for = request.POST.getlist('gfor')
         visibility = request.POST['visibility']
         schedule = request.POST['schedule_dt']
         message_type = request.POST['message_type']
@@ -318,13 +353,14 @@ def boardcast(request):
         upload = ''
         if 'upload' in request.FILES:
             upload = request.FILES['upload']
-        if push_for == "student":
+        if "student" in push_for:
             role_ = 'S'
-        elif push_for == "parent":
+        if "parent" in push_for:
             role_ = 'P'
-        else:
+        if "staff" in push_for:
             role_ = 'E'
-        if push_for == "student" or push_for == "parent":
+
+        if ('student' in push_for) or ('parent' in push_for):
             students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
                                                                    dept_code__in=department)
             if degree != "":
@@ -333,23 +369,41 @@ def boardcast(request):
                 students.filter(batch__in=batch)
 
             push_list = list(students.values_list('regdno', flat=True))
-        else:
+        if 'staff' in push_for:
             employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
                                                                      dept_code__in=department)
             if role != "":
                 employees.filter(job_status=role)
             push_list = list(employees.values_list('empid', flat=True))
-        group = "[" + ', '.join(campus) + '],[' + ', '.join(college) + '],[' + ', '.join(
-            department) + '],'
-        if degree != "":
-            group += '[' + ', '.join(degree) + '],'
-        if batch != "":
-            group += '[' + ', '.join(batch) + '],'
-        if role != "":
-            group += '[' + ', '.join(role) + '],'
-        group += push_for
+        if all(item in push_for for item in ['student', 'parent','staff']):
+            employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
+                                                                     dept_code__in=department)
+            if role != "":
+                employees.filter(job_status=role)
+            push_list1 = list(employees.values_list('empid', flat=True))
 
-        notification = PushNotification.objects.create(title=title, body=body, data=data, group=group, sent_by=sent_by, type='Push')
+            students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
+                                                                   dept_code__in=department)
+            if degree != "":
+                students.filter(degree_code__in=degree)
+            if batch != "":
+                students.filter(batch__in=batch)
+
+            push_list2 = list(students.values_list('regdno', flat=True))
+
+            push_list = push_list1 + push_list2
+
+        # group = "[" + ', '.join(campus) + '],[' + ', '.join(college) + '],[' + ', '.join(
+        #     department) + '],'
+        # if degree != "":
+        #     group += '[' + ', '.join(degree) + '],'
+        # if batch != "":
+        #     group += '[' + ', '.join(batch) + '],'
+        # if role != "":
+        #     group += '[' + ', '.join(role) + '],'
+        # group = ""
+
+        notification = PushNotification.objects.create(title=title, body=body, data=data, group=push_for, sent_by=sent_by, type='Push')
         notification.campus = campus
         notification.institute = college
         notification.department = department

@@ -466,66 +466,62 @@
         });
 
         $(document).on('change', '#department', function () {
-
             var role = "{{request.session.gname}}"
             if(role === "HOD" || role === "HOI"){
                 var gfor = $('#gfor_hod').val();
-
             }
-
             else{
                 var gfor = $('#gfor').val();
             }
-
-
             var campus = $('#campus').val();
             var institute = $('#institute').val();
             var department = $('#department').val();
             $('#batch').empty()
             $('#sem').empty()
-            if (gfor === "student" || gfor === "parent") {
+            if (gfor.includes('student') || gfor.includes('parent')) {
                 $('#degree_div').show();
+                 $('#role_div').hide();
                 $('#role').prop('required', false);
-            } else {
+            }
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')){
+                $('#role_div').show();
+                 $('#degree_div').show();
+                $('#role').prop('required', true);
+                $('#degree').prop('required', true);
+                $('#batch').prop('required', true);
+            }
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('directors')){
+                $('#role_div').show();
+                $('#degree_div').show();
+                $('#role').prop('required', true);
+                $('#degree').prop('required', true);
+                $('#batch').prop('required', true);
+            }
+            if (gfor.includes('staff')){
                 $('#role_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
-            if(role === "DIRECTOR" || role === "ADMIN" )
-            {
-
-                if (gfor === "directors") {
-                    $('#role_div').hide();
-                    $('#role').prop('required', false);
-                    $('#degree').prop('required', false);
-                    $('#batch').prop('required', false);
-                }
-            }
-
-
-
         });
 
         $(document).on('change', '#degree', function () {
+
             var role = "{{request.session.gname}}"
             if(role === "HOD" || role === "HOI"){
                 var gfor = $('#gfor_hod').val();
-
             }
             else{
                 var gfor = $('#gfor').val();
             }
 
-
             var campus = $('#campus').val();
             var institute = $('#institute').val();
             var department = $('#department').val();
             var degree = $('#degree').val();
-
             $('#batch').empty()
             $('#sem').empty()
-            if (gfor === "student" || gfor === "parent") {
+            if (gfor.includes('student') || gfor.includes('parent')) {
                 $.ajax({
                     type: "POST",
                     url: "{%url 'get_batch' %}",
@@ -559,12 +555,13 @@
                         }
                     }
                 });
-            } else {
+            }
+            else {
                 $('#role_div').show();
                 $('#role').prop('required', true);
             }
-
         });
+
         $(document).on('change', '#batch', function () {
             $('#checkbox2').prop('checked', true);
             var gfor = $('#gfor').val();
@@ -639,12 +636,69 @@
 
         });
 
+        $(document).on('click', '#checkbox_target', function () {
+            $('#checkbox1').removeAttr("selected");
+            $('#checkbox3').removeAttr("selected");
+            $('#checkbox4').removeAttr("selected");
+            $('#checkbox2').removeAttr("selected");
+            var gname = "{{ request.session.gname }}"
+            if (gname == "HOI" ||  gname == "HOD"){
+                if ($(this).is(':checked')) { //select all
+                    arr = []
+                    $("#gfor_hod").find("option").each(function () {
+                        $(this).attr('selected', 'selected');
+                        arr.push($(this).val());
+                    });
+                    $('#gfor_hod').val(arr)
+                } else { //deselect all
+                    $("#gfor_hod").find("option").each(function () {
+                        $(this).removeAttr("selected");
+                        $('#campus').removeAttr("selected");
+                        $('#batch').removeAttr("selected");
+                        $('#degree').removeAttr("selected");
+                    });
+                    $('#checkbox_class').prop('checked', false);
+                    $('#checkbox_degree').prop('checked', false);
+                    $('#checkbox1').prop('checked', false);
+                    $('#checkbox2').prop('checked', false);
+                    $('#checkbox3').prop('checked', false);
+                    $('#checkbox4').prop('checked', false);
+                    $('#batch_div').hide();
+                }
+                $('#gfor_hod').trigger('change');
+            }
+            else {
+
+                if ($(this).is(':checked')) { //select all
+                    arr = []
+                    $("#gfor").find("option").each(function () {
+                        $(this).attr('selected', 'selected');
+                        arr.push($(this).val());
+                    });
+                    $('#gfor').val(arr)
+                } else { //deselect all
+                    $("#gfor").find("option").each(function () {
+                        $(this).removeAttr("selected");
+                        $('#campus').removeAttr("selected");
+                        $('#batch').removeAttr("selected");
+                        $('#degree').removeAttr("selected");
+                    });
+                    $('#checkbox_class').prop('checked', false);
+                    $('#checkbox_degree').prop('checked', false);
+                    $('#checkbox1').prop('checked', false);
+                    $('#checkbox2').prop('checked', false);
+                    $('#checkbox3').prop('checked', false);
+                    $('#checkbox4').prop('checked', false);
+                    $('#batch_div').hide();
+                }
+                $('#gfor').trigger('change');
+            }
+        });
+
+
         $(document).on('click', '#checkbox2', function () {
             var data = $(this).val()
-
-
-            if ($(this).is(':checked')) { //select all
-
+            if ($(this).is(':checked')) {
                 arr = []
                 $("#checkboxes").find("option").each(function () {
                     $(this).attr('selected', 'selected');
