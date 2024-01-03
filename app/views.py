@@ -385,13 +385,13 @@ def boardcast(request):
             push_list = list(ddata1)
         if all(item in push_for for item in ['student', 'parent','staff']):
             employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                     dept_code__in=department)
+                                                                     dept_code__in=department,emp_status='A')
             if role != "":
                 employees.filter(job_status=role)
             push_list1 = list(employees.values_list('empid', flat=True))
 
             students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                   dept_code__in=department)
+                                                                   dept_code__in=department,status='S')
             if degree != "":
                 students.filter(degree_code__in=degree)
             if batch != "":
@@ -430,9 +430,10 @@ def boardcast(request):
         if upload != '':
             notification.attachments = upload
             notification.save()
-        for i in range(1,10000):
+        students = students.values()
+        for i in range(len(students)):
             push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-                                                         userid=str(i).zfill(8))
+                                                         userid=students[i]['regdno'])
             push.visibility = visibility
             push.save()
             if request.user.category:
