@@ -445,11 +445,11 @@ def boardcast(request):
                 push.save()
                 if request.user.category:
                     push.category = request.user.category
-                    if request.category == "PROVC":
+                    if request.user.category == "PROVC":
                         push.sub_category = request.user.campus
-                    if request.category == "HOD":
+                    if request.user.category == "HOD":
                         push.sub_category = request.user.dept_code
-                    if request.category == "HOI":
+                    if request.user.category == "HOI":
                         push.sub_category = request.user.institution
 
                     push.save()
