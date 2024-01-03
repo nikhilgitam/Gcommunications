@@ -16,6 +16,12 @@ class ViewAdmin(ImportExportModelAdmin):
     list_display = ('college', 'stream')
     search_fields = ('college', 'stream')
 
+
+@admin.register(Category)
+class ViewAdmin(ImportExportModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
 @admin.register(PushNotification)
 class ViewAdmin(ImportExportModelAdmin):
     list_display = ('campus', 'institute','department','dt_time')

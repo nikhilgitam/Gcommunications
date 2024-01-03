@@ -898,6 +898,8 @@ class PushNotification(models.Model):
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
 
 
+
+
 class PushNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True)
     category = models.CharField(max_length=20, blank=True, null=True)
@@ -929,5 +931,6 @@ class PushToken(models.Model):
     role = models.CharField(max_length=1, null=True, blank=True)
     is_active = models.BooleanField(default=False)
 
-class Directors(models.Model):
+class Category(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
+    name = models.CharField(max_length=50,null=True,blank=True)

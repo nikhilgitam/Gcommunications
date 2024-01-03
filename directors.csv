@@ -1,0 +1,79 @@
+EMPID,EMP_NAME,DESIGNATION,JOB_DESCRIPTION,EMAILID,MOBILE,CAMPUS,COLLEGE_CODE,DEPT_CODE
+10051,K Manjunathachari,PROFESSOR,"Professor,Dy Director",mkamsali@gitam.edu,9246923578,HYD,GIT,EECE
+10240,Riyazuddin Y Md,ASSOCIATEPROFESSOR,"Associate Professor,Asst. Director",rymd@gitam.edu,9849280786,HYD,GIT,CSE
+10281,Nathi Venu Kumar,PROFESSOR,"Professor,Director",vnathi@gitam.edu,9908955333,HYD,HAO,GCGC
+1159,Sai Kumar Vindula ,ASSOCIATEPROFESSOR,"Associate Professor,Asst. Director",svindula@gitam.edu,9550294952,VSP,GIT,CIVIL
+1328,Sri  M. Jagadeesh ,Deputy Director,Deputy Director,jmedapat@gitam.edu,9966001880,VSP,CAO,DAR
+1360,Boddu Vikas,Deputy Director,Deputy Director,vboddu2@gitam.edu,9010228228,VSP,CAO,GCGC
+1441,Dr. Pappu Venkata Yasoda Jayasree,PROFESSOR,"Professor,Associate Director",jpappu@gitam.edu,9849702033,VSP,GIT,EECE
+1510,Sri  Madugula  Murali Krishna,ASSISTANTPROFESSOR,"Assistant Professor,Asst. Director",mmadugul@gitam.edu,9866912256,VSP,GIT,EECE
+1530,Srinivas Karedla ,Assistant Director,Assistant Director,skaredla@gitam.edu,7660855007,VSP,CAO,DAR
+16040,M Narayana Rao Chowdary,Deputy Director,Deputy Director,nmuthare@gitam.edu,9542422202,HYD,HAO,PEY
+1844,Dr. Ganapavarapu Venkata Satya Raj Kumar,PROFESSOR,"Professor,Associate Director",gganapav@gitam.edu,9989888307,VSP,GIT,CSE
+2049,Battula Suryanarayana Murthy,PROFESSOR,"Professor,Director",sbattula3@gitam.edu,9490132441,VSP,CAO,DOE
+2138,Chintada Anil Kumar,Deputy Director,Deputy Director,achintad2@gitam.edu,9704974509,VSP,CAO,GCGC
+2313,Ganapavarapu Veera Raghava Sarma,PROFESSOR,"Professor,Director",sganapav@gitam.edu,9642575394,VSP,GIS,CHEMISTRY
+30106,Mahesh V ,DY DIRECTOR,Dy Director,mvarier@gitam.edu,9036217587,BLR,BAO,VDC
+3019,G V Satya Sekhar,ASSOCIATEPROFESSOR,"Associate Professor,Dy Director",sgudimet@gitam.edu,9247895496,VSP,CDL,CDL
+35037,D Vamsi Krishna,Assistant Director,Assistant Director,vdharmav2@gitam.edu,8197333308,BLR,BAO,PEY
+4140,VVSN Sastry,ASSISTANTDIRECTOR,Asst. Director,svelamur@gitam.edu,9848590011,VSP,CDL,CDL
+4519,Anita Rao Raviwada,DIRECTOR,Director,araviwad@gitam.edu,9848085253,VSP,GSL,GSL
+500700,Volety Ganapathi Rao,Deputy Director,Deputy Director,gvolety@gitam.edu,9854073337,VSP,CAO,R&C
+500765,Uma Devi K V,Senior Director,Senior Director,ukanchar@gitam.edu,9885288808,VSP,CAO,GCGC
+500855,Venkatesh Addanki,Deputy Director,Deputy Director,vaddanki@gitam.edu,8332089329,VSP,CAO,GCGC
+500874,C.A. Sreeram,Director,Director,saswatha@gitam.edu,9840149058,VSP,CAO,GCGC
+500877,Balijapalli Ravi Kanth,Deputy Director,Deputy Director,rbalijap@gitam.edu,9493480209,VSP,CAO,GCGC
+500886,Raja Prabu R,DIRECTOR,"Director,Professor",rramacha@gitam.edu,9444013050,VSP,CAO,A&R
+500948,Rojeena George,Director,Director,rgeorge@gitam.edu,9573034678,VSP,CAO,GCGC
+501035,Praveen kumar Saiwal,Deputy Director,Deputy Director,psaiwal@gitam.edu,8239331350,VSP,CAO,GCGC
+501075,S Rajeshwari,Deputy Director,Deputy Director,rswamina@gitam.edu,7358888157,VSP,CAO,MKT
+501252,Pinapatruni Naveen,Deputy Director,Deputy Director,npinapat@gitam.edu,8373000111,VSP,CAO,DOER
+501292,Bagga Hemant,Director - Hospitality,Director - Hospitality,hbagga@gitam.edu,9500029045,VSP,CAO,DOH
+501355,Sambamurthy Sanapala,Deputy Director,Deputy Director,ssanapal4@gitam.edu,7893500456,VSP,CAO,CAO-ESTABLISHMENT
+501440,Sivakumar R,Director,Director,sraghava@gitam.edu,9347280580,VSP,CAO,CAO-ESTABLISHMENT
+501559,Ravi Kishore Bhagavatula,SD,"Senior Director,Professor",rbhagava@gitam.edu,9003071057,VSP,GIT,EECE
+501811,Shrdhanjali,Assistant Director,Assistant Director,ssingh6@gitam.edu,9982884848,VSP,CAO,GCGC
+501939,Sombhatt Shastri,Deputy Director,Deputy Director,sshastri@gitam.edu,6302257547,VSP,CAO,R&C
+501970,Somayajula Vamsi Kiran,Director,Director,vsomayaj@gitam.edu,9849803017,VSP,CAO,GCGC
+501994,Yedlapalli Lava Raju,Deputy Director,Deputy Director,lyedlapa@gitam.edu,9618912359,VSP,CAO,CATS
+502004,Vakkalanka Sairam,Deputy Director,Deputy Director,svakkala@gitam.edu,9989733724,VSP,CAO,CATS
+502061,Venkata Hari Krishna V,Assistant Director,Assistant Director,vvaranas2@gitam.edu,9246283529,VSP,CAO,DAR
+502079,K Chinnaya Suri,Distinguished Professor,"Distinguished Professor,Associate Dean,Director",kcsuri@gitam.edu,9441128834,VSP,GSGS,POLS
+502095,B V Ramana Kumar,Senior Director,Senior Director,vbarrela@gitam.edu,8897599998,VSP,CAO,DOS
+502181,Voleti Ravi Kumar,Deputy Director,Deputy Director,rvoleti@gitam.edu,9502187295,VSP,CAO,GCGC
+502210,Devireddy Sreedevi,Director,Director,sdevired@gitam.edu,8008028170,VSP,CAO,VDC
+502250,Vinnakota S V Prabhakar ,PROFESSOR,"Professor,Associate Director",svinnako@gitam.edu,7730007703,VSP,GIT,CSE
+502358,K Nagendra Prasad,DIRECTOR,"Director,Professor",nkota@gitam.edu,9676593220,VSP,GIT,PRINCIPALOFFICE
+502409,Geo Ciril Podipara,Assistant Director,Assistant Director,gpodipar@gitam.edu,9995813612,HYD,HAO,DOSL
+502428,Nidheesh Saxena,Senior Director,Senior Director,nsaxena@gitam.edu,9987048400,VSP,CAO,DAR
+502441,Vijay Kumar Upadhyay ,Director,Director,vupadhya@gitam.edu,7056724233,VSP,CAO,PEY
+502465,Shruti Chattwal,Deputy Director,Deputy Director,schatwal@gitam.edu,9665041368,VSP,CAO,DOSL
+502493,Jayant John,Assistant Director,Assistant Director,jjohn2@gitam.edu,9884050899,VSP,CAO,DOH
+502576,Devarakonda Padma Seshu,Assistant Director,Assistant Director,pbhamidi@gitam.edu,9652972292,VSP,CAO,A&R
+600057,Lokesh T,Deputy Director,Deputy Director,lthokala@gitam.edu,9603472479,HYD,HAO,GCGC
+600077,N Seetharamaiah,Associate Director,Associate Director,snuthala@gitam.edu,9849402284,HYD,GIT,DIRECTORS OFFICE
+600202,Ramakanta Bal,Deputy Director,Deputy Director,rbal@gitam.edu,9441227436,HYD,HAO,GCGC
+600223,Naresh Gundoju,Deputy Director,Deputy Director,ngundoju@gitam.edu,9848258728,HYD,HAO,GCGC
+600264,Karunakar B,DIRECTOR,Director,kboddu@gitam.edu,8008002580,HYD,HBS,Director Office
+600267,V Sireesha Gandhi,Deputy Director,Deputy Director,sjetti@gitam.edu,7659912345,VSP,CAO,CAO-ESTABLISHMENT
+600322,Damodar Rao Y,Assistant Director,Assistant Director,dyampava@gitam.edu,7702232035,HYD,GIT,AER
+600528,Neelam Mehra,Deputy Director,Deputy Director,nmehra@gitam.edu,9848372354,HYD,GPP,AMN
+600592,Ambika,DYDIRECTOR,Dy. Director,aphilip2@gitam.edu,8008887903,HYD,HAO,DOH
+600659,K.Suresh Babu,Deputy Director,Deputy Director,skarayil@gitam.edu,9490750007,HYD,HAO,GCGC
+600723,Vedala Rama Sastry,DIRECTOR,Director,rvedala@gitam.edu,9845428905,HYD,GIT,DIRECTORS OFFICE
+600736,Hitesh Kakkar,Director,Director,hkakkar@gitam.edu,9818376083,HYD,GPP,DIRECTORS OFFICE
+600794,Sunny Jose G,DIRECTOR,Director,sjose@gitam.edu,9010309134,HYD,GSHS,ADMINISTRATIVE OFFICE
+600815,Kunapamu Moni,Assistant Director,Assistant Director,mkunapam@gitam.edu,9581445300,HYD,HAO,GCGC
+6115,G Srinivasu,Deputy Director,Deputy Director,sgundapu@gitam.edu,9581075151,VSP,CAO,PEY
+6446,R Muralidhararao,Assistant Director,Assistant Director,mrayudu@gitam.edu,9490841667,VSP,CAO,PEY
+6448,P Jayalakshmi,Assistant Director,Assistant Director,jpandrin@gitam.edu,9989853585,VSP,CAO,PEY
+700036,Dasari Sailendra,PROFESSOR,Professor & Director(In-Charge),sdasari2@gitam.edu,9845333298,BLR,SMS,MARKETING
+700427,Deepak Haridas ,Assistant Director,Assistant Director,dharidas@gitam.edu,9446668135,BLR,BAO,GCGC
+700456,Gejji Vijay Govind,Resident Director,Resident Director,vgejji@gitam.edu,9972447661,BLR,BAO,RDO
+700485,S Anita Sherine,Assistant Director,Assistant Director,asherine@gitam.edu,9611129362,BLR,BAO,GCGC
+700579,Rajesh R,Deputy Director,Deputy Director,rramakri@gitam.edu,7708905515,BLR,BAO,DOS
+700680,Priyanka Sharma,Assistant Director,Assistant Director,psharma2@gitam.edu,9997806826,BLR,BAO,DOSL
+700688,Reema Chaudhury,Director,Director,rchaudhu@gitam.edu,9958593777,BLR,BAO,DOSL
+700708,Basavaraj G Katageri,DIRECTOR,"Director,Professor",bkatager@gitam.edu,9448221813,BLR,GST,DIRECTOR-OFFICE
+700752,Vishwanath AB,"Director - Learning & Development,Head Human Resources - BLR","Director - Learning & Development,Head Human Resources - BLR",vbelliap@gitam.edu,9686667344,BLR,BAO,L&D - NTS
+90020,D V V S R Varma,RD,Resident Director,vdatla@gitam.edu,9951634477,VSP,CAO,OCAO
