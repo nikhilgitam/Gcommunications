@@ -445,6 +445,13 @@ def boardcast(request):
                 push.save()
                 if request.user.category:
                     push.category = request.user.category
+                    if request.category == "PROVC":
+                        push.sub_category = request.user.campus
+                    if request.category == "HOD":
+                        push.sub_category = request.user.dept_code
+                    if request.category == "HOI":
+                        push.sub_category = request.user.institution
+
                     push.save()
                 web = WebNotificationStatus.objects.create(notification=notification, role=role_,
                                                              userid=PushToken.objects.using('G-comm').get(token=push_token,
@@ -469,7 +476,6 @@ def boardcast(request):
                         body=body,
                         data={"id": None},
                     )
-
                 response = push_client.publish(message)
             sweetify.success(request, "Push Notified Successfully!!")
         sweetify.success(request, "Sent Successfully!!")
