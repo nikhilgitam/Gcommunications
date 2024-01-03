@@ -880,8 +880,7 @@ class Dean(models.Model):
 
 class PushNotification(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
-    role = models.CharField(max_length=200, null=True, blank=True)
-    user = models.CharField(max_length=100, null=True, blank=True)
+    role = models.CharField(max_length=20, null=True, blank=True)
     body = models.TextField(null=True, blank=True)
     title = models.TextField(null=True, blank=True)
     data = models.TextField(null=True, blank=True)
@@ -889,8 +888,8 @@ class PushNotification(models.Model):
     institute = models.TextField(null=True, blank=True)
     department = models.TextField(null=True, blank=True)
     group = models.TextField(null=True, blank=True)
-    sent_by = models.CharField(max_length=500, null=True, blank=True)
-    type = models.CharField(max_length=50, null=True, blank=True)
+    sent_by = models.CharField(max_length=10, null=True, blank=True)
+    type = models.CharField(max_length=10, null=True, blank=True)
     is_web = models.BooleanField(default=False,null=True,blank=True)
     is_schedule = models.BooleanField(default=False,null=True,blank=True)
     attachments = models.FileField('attachments/',blank=True,null=True)
@@ -901,12 +900,12 @@ class PushNotification(models.Model):
 
 class PushNotificationStatus(models.Model):
     notification = models.ForeignKey(PushNotification, on_delete=models.CASCADE, null=True, blank=True)
-    category = models.CharField(max_length=50, blank=True, null=True)
-    sub_category = models.CharField(max_length=100, blank=True, null=True)
-    userid = models.CharField(max_length=500, null=True, blank=True)
+    category = models.CharField(max_length=20, blank=True, null=True)
+    sub_category = models.CharField(max_length=20, blank=True, null=True)
+    userid = models.CharField(max_length=16, null=True, blank=True)
     status = models.IntegerField(default=0,null=True,blank=True)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
-    visibility = models.CharField(max_length=10,null=True, blank=True)
+    visibility = models.CharField(max_length=3,null=True, blank=True)
     visible_flag = models.BooleanField(default=True)
     role = models.CharField(max_length=2, null=True, blank=True)
 
