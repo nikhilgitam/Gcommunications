@@ -1,5 +1,6 @@
 import pickle
-
+from django.db import close_old_connections
+from threading import Thread
 import sweetify
 from django.contrib import messages
 from django.contrib.auth import logout, login
@@ -325,6 +326,59 @@ def get_email_ids(request):
     return JsonResponse({'data': df2})
 
 
+def send_push_notification(push_list, role_, notification, visibility, request, circular, title, body, data):
+    try:
+        close_old_connections()
+        push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_, is_active=1).values_list('token', flat=True)
+
+        push_client = PushClient()
+        for push_token in push_tokens:
+            if push_token:
+                print('push_token')
+                print(push_token)
+                push = PushNotificationStatus.objects.create(notification=notification, role=role_,
+                                                             userid=PushToken.objects.using('G-comm').get(token=push_token, role=role_).userid)
+                push.visibility = visibility
+                push.save()
+                if request.user.category:
+                    push.category = request.user.category
+                    if request.user.category == "PROVC":
+                        push.sub_category = request.user.campus
+                    if request.user.category == "HOD":
+                        push.sub_category = request.user.dept_code
+                    if request.user.category == "HOI":
+                        push.sub_category = request.user.institution
+
+                    push.save()
+                web = WebNotificationStatus.objects.create(notification=notification, role=role_,
+                                                             userid=PushToken.objects.using('G-comm').get(token=push_token, role=role_).userid)
+                web.visibility = visibility
+                web.save()
+                if request.user.category:
+                    web.category = request.user.category
+                    web.save()
+
+                if circular:
+                    message = PushMessage(
+                        to=push_token,
+                        title=title,
+                        body=body,
+                        data={"id": push.id, "data": data},
+                    )
+                else:
+                    message = PushMessage(
+                        to=push_token,
+                        title=title,
+                        body=body,
+                        data={"id": None},
+                    )
+                response = push_client.publish(message)
+
+    except Exception as e:
+        print(str(e))
+
+
+
 def boardcast(request):
     if request.method == "POST":
         title = request.POST['title']
@@ -409,7 +463,10 @@ def boardcast(request):
         #     group += '[' + ', '.join(batch) + '],'
         # if role != "":
         #     group += '[' + ', '.join(role) + '],'
+
+
         # group = ""
+
 
         notification = PushNotification.objects.create(title=title, body=body, data=data, group=push_for, sent_by=sent_by, type='Push')
         notification.campus = campus
@@ -448,58 +505,63 @@ def boardcast(request):
         #         push.save()
 
 
-        push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_,is_active=1).values_list('token', flat=True)
 
-        try:
-            push_client = PushClient()
-            for push_token in push_tokens:
-                if push_token:
-                    print('push_token')
-                    print(push_token)
-                    push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-                                                                 userid=PushToken.objects.using('G-comm').get(token=push_token,
-                                                                                              role=role_).userid)
-                    push.visibility = visibility
-                    push.save()
-                    if request.user.category:
-                        push.category = request.user.category
-                        if request.user.category == "PROVC":
-                            push.sub_category = request.user.campus
-                        if request.user.category == "HOD":
-                            push.sub_category = request.user.dept_code
-                        if request.user.category == "HOI":
-                            push.sub_category = request.user.institution
+        push_thread = Thread(target=send_push_notification, args=(push_list, role_, notification, visibility, request, circular, title, body, data))
 
-                        push.save()
-                    web = WebNotificationStatus.objects.create(notification=notification, role=role_,
-                                                                 userid=PushToken.objects.using('G-comm').get(token=push_token,
-                                                                                              role=role_).userid)
-                    web.visibility = visibility
-                    web.save()
-                    if request.user.category:
-                        web.category = request.user.category
-                        web.save()
+        push_thread.start()
 
-                    if circular:
-                        message = PushMessage(
-                            to=push_token,
-                            title=title,
-                            body=body,
-                            data={"id": push.id, "data": data},
-                        )
-                    else:
-                        message = PushMessage(
-                            to=push_token,
-                            title=title,
-                            body=body,
-                            data={"id": None},
-                        )
-                    response = push_client.publish(message)
-                sweetify.success(request, "Push Notified Successfully!!")
-            sweetify.success(request, "Sent Successfully!!")
-        except Exception as e:
-            print(str(e))
-            sweetify.error(request, str(e))
+
+
+        # try:
+        #     push_client = PushClient()
+        #     for push_token in push_tokens:
+        #         if push_token:
+        #             print('push_token')
+        #             print(push_token)
+        #             push = PushNotificationStatus.objects.create(notification=notification, role=role_,
+        #                                                          userid=PushToken.objects.using('G-comm').get(token=push_token,
+        #                                                                                       role=role_).userid)
+        #             push.visibility = visibility
+        #             push.save()
+        #             if request.user.category:
+        #                 push.category = request.user.category
+        #                 if request.user.category == "PROVC":
+        #                     push.sub_category = request.user.campus
+        #                 if request.user.category == "HOD":
+        #                     push.sub_category = request.user.dept_code
+        #                 if request.user.category == "HOI":
+        #                     push.sub_category = request.user.institution
+        #
+        #                 push.save()
+        #             web = WebNotificationStatus.objects.create(notification=notification, role=role_,
+        #                                                          userid=PushToken.objects.using('G-comm').get(token=push_token,
+        #                                                                                       role=role_).userid)
+        #             web.visibility = visibility
+        #             web.save()
+        #             if request.user.category:
+        #                 web.category = request.user.category
+        #                 web.save()
+        #
+        #             if circular:
+        #                 message = PushMessage(
+        #                     to=push_token,
+        #                     title=title,
+        #                     body=body,
+        #                     data={"id": push.id, "data": data},
+        #                 )
+        #             else:
+        #                 message = PushMessage(
+        #                     to=push_token,
+        #                     title=title,
+        #                     body=body,
+        #                     data={"id": None},
+        #                 )
+        #             response = push_client.publish(message)
+        #         sweetify.success(request, "Push Notified Successfully!!")
+        #     sweetify.success(request, "Sent Successfully!!")
+        # except Exception as e:
+        #     print(str(e))
+        #     sweetify.error(request, str(e))
         sweetify.success(request, "Message Sent Successfully")
     return redirect('/dashboard')
 
