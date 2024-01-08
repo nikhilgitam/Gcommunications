@@ -924,7 +924,6 @@ class WebNotificationStatus(models.Model):
     role = models.CharField(max_length=2, null=True, blank=True)
 
 
-
 class PushToken(models.Model):
     token = models.CharField(max_length=500, null=True, blank=True)
     userid = models.CharField(max_length=500, null=True, blank=True)
