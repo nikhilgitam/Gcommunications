@@ -478,6 +478,18 @@
             var department = $('#department').val();
             $('#batch').empty()
             $('#sem').empty()
+             if (gfor.includes('staff')){
+                $('#role_div').show();
+                $('#role').prop('required', true);
+                $('#degree').prop('required', false);
+                $('#batch').prop('required', false);
+            }
+            if (gfor.includes('directors')){
+                  $('#role_div').hide();
+                $('#role').prop('required', false);
+                $('#degree').prop('required', false);
+                $('#batch').prop('required', false);
+            }
             if (gfor.includes('student') || gfor.includes('parent')) {
                 $('#degree_div').show();
                  $('#role_div').hide();
@@ -497,18 +509,7 @@
                 $('#degree').prop('required', true);
                 $('#batch').prop('required', true);
             }
-            if (gfor.includes('staff')){
-                $('#role_div').show();
-                $('#role').prop('required', true);
-                $('#degree').prop('required', false);
-                $('#batch').prop('required', false);
-            }
-            if (gfor.includes('directors')){
-                  $('#role_div').hide();
-                $('#role').prop('required', false);
-                $('#degree').prop('required', false);
-                $('#batch').prop('required', false);
-            }
+
         });
 
         $(document).on('change', '#degree', function () {
@@ -527,7 +528,10 @@
             var degree = $('#degree').val();
             $('#batch').empty()
             $('#sem').empty()
+
+
             if (gfor.includes('student') || gfor.includes('parent')) {
+                 $('#overlay').show();
                 $.ajax({
                     type: "POST",
                     url: "{%url 'get_batch' %}",
@@ -555,16 +559,20 @@
                                 $('#batch').append(newOption);
                                 $('#batch_div').show();
 
+
                             }
                         } else {
-                            $('#department').empty()
+                            $('#department').empty();
+
                         }
+                        $('#overlay').hide();
                     }
                 });
             }
             else {
                 $('#role_div').show();
                 $('#role').prop('required', true);
+
             }
         });
 
