@@ -448,7 +448,7 @@ def boardcast(request):
         #         push.save()
 
 
-        push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_).values_list('token', flat=True)
+        push_tokens = PushToken.objects.using('G-comm').filter(userid__in=push_list, role=role_,is_active=1).values_list('token', flat=True)
 
         try:
             push_client = PushClient()
