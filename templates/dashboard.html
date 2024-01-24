@@ -51,6 +51,14 @@
                                 {% include 'role_wise/dean.html' %}
                             {% endif %}
                         {% load customtag %}
+                                                    <div id="gfor_note">
+                                 <p style="font-size: 12px">Note:<span style="color: darkred;font-weight: bold;">*</span> Target Audience: <br>
+                                    <span id="std_note"> &#x2022; Student: - Notifications will be reflected in G-Student Portal</span>
+                                     <span id="staff_note">  &#x2022; Staff, Directors, Deans, etc.: - Notifications will be reflected in G-Staff Portal</span>
+                                      <span id="parent_note"> &#x2022; Parent: - Notifications will be reflected in G-Parent Portal</span>
+                                 </p>
+
+                            </div>
                         <div class="row">
                             <div class="col-lg-2">
                             <div class="form-group">
@@ -82,6 +90,7 @@
 {#                                <input type="date" class="form-control"  min="{{ exclude_today|from_current_data }}" id="to_date" name="to_date" required>#}
 {#                            </div>#}
 {#                        </div>#}
+
                                 <div class="col-lg-2">
         <div class="form-group">
             <label for="Department">Repetition *</label>
@@ -105,6 +114,7 @@
                                                                                        checked="true" disabled/>
                                         &nbsp;&nbsp;&nbsp;<label for="circular">Circular Notification</label> <input id="circular"
                                             type="checkbox" name="circular" value="0" />
+                                    <p style="font-size: 12px">Note:<span style="color: darkred;font-weight: bold;">*</span> Push Notification will be sent only to the Mobile App Users</p>
                                     <div class="form-group">
 
                                     </div>
@@ -351,14 +361,16 @@
 </script>
 
 <script>
-
-
-
     $(document).ready(function () {
         $('.js-example-institute-multiple').select2({theme: "classic", allowClear: true});
+        $('#gfor_note').hide();
+         $('#staff_note').hide();
+          $('#std_note').hide();
+          $('#parent_note').hide();
 
         $(document).on('change', '#gfor', function () {
             $('#institute').empty();
+            $('#gfor_note').show();
             $('#campus').empty();
             $('#department').empty();
             $('#batch').empty();
@@ -373,6 +385,59 @@
             $('#checkbox4').prop('checked', false);
             $('#checkbox_degree').prop('checked', false);
             $('#checkbox_class').prop('checked', false);
+            $('#campus').removeAttr('disabled')
+            $('#checkbox1').removeAttr('disabled')
+            if(role === "HOD" || role === "HOI"){
+                var gfor = $('#gfor_hod').val();
+            }
+            else{
+                var gfor = $('#gfor').val();
+            }
+
+             if (gfor.includes('staff')){
+                $('#staff_note').show();
+                $('#std_note').hide();
+                 $('#parent_note').hide();
+
+            }
+            if (gfor.includes('directors')){
+                  $('#staff_note').show();
+                   $('#std_note').hide();
+                    $('#parent_note').hide();
+
+            }
+
+            if (gfor.includes('student')) {
+                $('#std_note').show();
+                $('#staff_note').hide();
+                $('#parent_note').hide();
+            }
+            if (gfor.includes('parent')) {
+                $('#parent_note').show();
+                $('#std_note').hide();
+                $('#staff_note').hide();
+            }
+            if (gfor.includes('student')  && gfor.includes('staff')){
+                  $('#staff_note').show();
+          $('#std_note').show();
+          $('#parent_note').show();
+            }
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')){
+                  $('#staff_note').show();
+          $('#std_note').show();
+          $('#parent_note').show();
+            }
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('directors')){
+                    $('#staff_note').show();
+          $('#std_note').show();
+          $('#parent_note').show();
+            }
+            if (gfor.length === 0){
+                $('#staff_note').hide();
+          $('#std_note').hide();
+          $('#parent_note').hide();
+           $('#gfor_note').hide();
+            }
             var campus = ['VSP', 'HYD', 'BLR']
             for (var i = 0; i < campus.length; i++) {
                 var data = {
@@ -528,8 +593,6 @@
             var degree = $('#degree').val();
             $('#batch').empty()
             $('#sem').empty()
-
-
             if (gfor.includes('student') || gfor.includes('parent')) {
                  $('#overlay').show();
                 $.ajax({
@@ -547,7 +610,6 @@
                         //console.log(campus.length)
                         batch = data.data
                         console.log(batch)
-
                         $('#batch').empty()
                         if (institute.length > 0) {
                             for (var i = 0; i < batch.length; i++) {
@@ -789,24 +851,7 @@
             }
         });
 
-        {#$(document).on('click', '#checkbox3', function () {#}
-        {#    if ($(this).is(':checked')) { //select all#}
-        {#        arr = []#}
-        {#        $("#institute").find("option").each(function () {#}
-        {##}
-        {#            $(this).attr('selected', 'selected');#}
-        {#            arr.push($(this).val())#}
-        {##}
-        {#        });#}
-        {#        $('#institute').val(arr)#}
-        {#    } else { //deselect all#}
-        {#        $("#institute").find("option").each(function () {#}
-        {#            $(this).removeAttr("selected");#}
-        {#        });#}
-        {#    }#}
-        {#    $('#institute').trigger('change');#}
-        {##}
-        {#});#}
+
 
         $(document).on('click', '#checkbox4', function () {
             if ($(this).is(':checked')) { //select all

@@ -196,6 +196,12 @@ def get_institute(request):
         institute = list(institute)
         institute = list(filter(None, institute))
 
+    if 'deans' in gfor:
+        institute = User.objects.filter(campus__in=campus,userOf__group__name='DEAN').exclude(
+            institution__isnull=True).distinct().values_list('institution', flat=True)
+        institute = list(institute)
+        institute = list(filter(None, institute))
+
     if all(item in gfor for item in ['staff', 'student']):
         institute1 = EmployeeMaster.objects.using('GITAM').filter(campus__in=campus, emp_status="A").exclude(
             college_code__isnull=True).distinct().values_list('college_code', flat=True)
@@ -221,6 +227,9 @@ def get_department(request):
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
     if 'directors' in gfor:
+        df2 = User.objects.filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
+            'dept_code', flat=True).distinct()
+    if 'deans' in gfor:
         df2 = User.objects.filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
             'dept_code', flat=True).distinct()
     if 'staff' in gfor:

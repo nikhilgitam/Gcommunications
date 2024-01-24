@@ -5,9 +5,9 @@
                                         <select class="form-control js-example-institute-multiple" multiple
                                                 name="gfor"
                                                 id="gfor_hod" required>
-                                            <option value="student">Student (G-Student)</option>
-                                            <option value="staff">Staff (G-Staff)</option>
-                                            <option value="parent">Parent (G-Parent)</option>
+                                            <option value="student">Student </option>
+                                            <option value="staff">Staff </option>
+                                            <option value="parent">Parent </option>
                                             {% if request.session.gname == "ADMIN" or request.session.gname == "DIRECTOR" %}
                                                 <option value="directors">Directors</option>
                                             {% endif %}
