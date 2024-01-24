@@ -422,7 +422,7 @@ def boardcast(request):
             role_ = 'S'
         if "parent" in push_for:
             role_ = 'P'
-        if ("staff" in push_for) or ("directors" in push_for):
+        if ("staff" in push_for) or ("directors" in push_for) or ("deans" in push_for):
             role_ = 'E'
 
 
@@ -443,10 +443,14 @@ def boardcast(request):
             push_list = list(employees.values_list('empid', flat=True))
         if 'directors' in push_for:
             ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
-                                                                     dept_code__in=department).values_list('u_id', flat=True)
+                                                                     dept_code__in=department,userOf__group__name='DIRECTOR').values_list('u_id', flat=True)
+            push_list = list(ddata1)
+        if 'deans' in push_for:
+            ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
+                                                                     dept_code__in=department,userOf__group__name='DEAN').values_list('u_id', flat=True)
 
             push_list = list(ddata1)
-        if all(item in push_for for item in ['student', 'parent','staff']):
+        if all(item in push_for for item in ['student', 'parent','staff','directors','deans']):
             employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
                                                                      dept_code__in=department,emp_status='A')
             if role != "":

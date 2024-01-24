@@ -560,6 +560,12 @@
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
+            if (gfor.includes('deans')){
+                  $('#role_div').hide();
+                $('#role').prop('required', false);
+                $('#degree').prop('required', false);
+                $('#batch').prop('required', false);
+            }
             if (gfor.includes('student') || gfor.includes('parent')) {
                 $('#degree_div').show();
                  $('#role_div').hide();
