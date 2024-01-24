@@ -400,6 +400,7 @@
                  $('#parent_note').hide();
 
             }
+
             if (gfor.includes('directors')){
                   $('#staff_note').show();
                    $('#std_note').hide();
@@ -550,8 +551,8 @@
                 $('#batch').prop('required', false);
             }
             if (gfor.includes('directors')){
-                  $('#role_div').hide();
-                $('#role').prop('required', false);
+                  $('#role_div').show();
+                $('#role').prop('required', true);
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
@@ -681,7 +682,7 @@
         });
 
 
-        $(document).on('click', '#checkbox1', function () {
+        $(document).on('change', '#checkbox1', function () {
 
             $('#checkbox2').removeAttr("selected");
 
@@ -696,17 +697,19 @@
             } else { //deselect all
                 $("#campus").find("option").each(function () {
                     $(this).removeAttr("selected");
-                    $('#batch').removeAttr("selected");
-                    $('#degree').removeAttr("selected");
+
                 });
+                $('#batch').removeAttr("selected");
+                $('#degree').removeAttr("selected");
+                $('#role').removeAttr("selected");
                 $('#checkbox_class').prop('checked', false);
                 $('#checkbox_degree').prop('checked', false);
                 $('#checkbox2').prop('checked', false);
                 $('#checkbox3').prop('checked', false);
                 $('#checkbox4').prop('checked', false);
                 $('#batch_div').hide();
-
-
+                $('#role_div').hide();
+                $('#degree_div').hide();
             }
             $('#campus').trigger('change');
 
