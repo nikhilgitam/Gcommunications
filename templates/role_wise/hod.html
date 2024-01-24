@@ -131,18 +131,55 @@
     })
 
     $(document).on('change','#gfor_hod',function (){
-       var for_val = $(this).val()
-        $('#degree').selected = false;
-        if (for_val.includes('staff'))  {
+
+
+
+            $('#gfor_note').show()
+            $('#degree').empty()
+
+            $('#checkboxes').empty();
+            $('#sem').empty();
+            $('#batch_div').hide();
+           $('#degree_div_hod').hide()
+            $('#role_div').hide();
+            $('#checkbox1').prop('checked', false);
+            $('#checkbox2').prop('checked', false);
+            $('#checkbox3').prop('checked', false);
+            $('#checkbox4').prop('checked', false);
+            $('#checkbox_degree').prop('checked', false);
+            $('#checkbox_class').prop('checked', false);
+
+       var gfor = $(this).val()
+        if (gfor.includes('staff'))  {
             $('#degree_div_hod').hide()
             $('#role_div').show()
-            $('#batch_div_hod').hide()
+            $('#batch_div').hide()
 
         }
-        else{
-             $('#degree_div_hod').show()
+        if ((gfor.includes('student')) || (gfor.includes('parent'))) {
+            $('#degree_div_hod').show()
+            $('#degree').append()
             $('#role_div').hide()
-            $('#batch_div_hod').hide()
+            $('#batch_div').hide()
+
+
+        var newOptions = [
+            { id: "1", text: "UG" },
+            { id: "2", text: "PG" }
+        ];
+
+        // Append new options to Select2
+        for (var i = 0; i < newOptions.length; i++) {
+            $('#degree').append(new Option(newOptions[i].text, newOptions[i].id, false, false));
         }
+
+        }
+        if ((gfor.includes('student')) && (gfor.includes('staff'))) {
+            $('#degree_div_hod').show()
+            $('#role_div').show()
+            $('#batch_div').hide()
+
+        }
+
     });
 </script>

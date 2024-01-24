@@ -739,12 +739,13 @@
                         arr.push($(this).val());
                     });
                     $('#gfor_hod').val(arr)
+
                 } else { //deselect all
                     $("#gfor_hod").find("option").each(function () {
                         $(this).removeAttr("selected");
-                        $('#campus').removeAttr("selected");
-                        $('#batch').removeAttr("selected");
-                        $('#degree').removeAttr("selected");
+
+                        $('#batch_div').removeAttr("selected");
+                        $('#degree_div_hod').removeAttr("selected");
                     });
                     $('#checkbox_class').prop('checked', false);
                     $('#checkbox_degree').prop('checked', false);
@@ -753,6 +754,7 @@
                     $('#checkbox3').prop('checked', false);
                     $('#checkbox4').prop('checked', false);
                     $('#batch_div').hide();
+                    $('#degree_div_hod').hide();
                 }
                 $('#gfor_hod').trigger('change');
             }
