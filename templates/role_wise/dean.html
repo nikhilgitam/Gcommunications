@@ -11,6 +11,9 @@
                                             {% if request.session.gname == "ADMIN" or request.session.gname == "DIRECTOR" %}
                                                 <option value="directors">Directors</option>
                                             {% endif %}
+                                         {% if request.session.gname == "ADMIN" or request.session.gname == "DEAN" %}
+                                                <option value="deans">Deans</option>
+                                            {% endif %}
                                         </select>
                                       <input type="checkbox" class="form-check-inline"
                                                id="checkbox_target">Select

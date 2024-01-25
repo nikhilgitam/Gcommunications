@@ -214,7 +214,7 @@ def get_institute(request):
         institute = institute1 + institute
         institute = list(set(institute))
 
-    if request.session['gname'] == "DEAN":
+    if request.session['gname'] == "DEAN" and not ('deans' in gfor):
         intersection = [value for value in institute if value in request.session['dean_list']]
         return JsonResponse({'data': intersection})
     return JsonResponse({'data': institute})
