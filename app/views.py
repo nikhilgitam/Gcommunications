@@ -638,6 +638,15 @@ def boardcast_1(request):
 
     return redirect('index')
 
+@login_required
+def get_hoi_dept(request):
+    df2 = EmployeeMaster.objects.using('GITAM').filter(campus=request.user.campus, college_code=request.user.institution,
+                                                       emp_status="A").exclude(dept_code__isnull=True).values_list(
+        'dept_code', flat=True).distinct()
+    df2=list(df2)
+    df2 = list(filter(None, df2))
+    return JsonResponse({"data":df2})
+
 
 def add_user_d(request):
     pass

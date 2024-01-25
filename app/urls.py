@@ -28,5 +28,6 @@ urlpatterns = [
     path('get_batch', get_batch, name='get_batch'),
     path('get_student_emails', get_student_emails, name='get_student_emails'),
     path('get_user_email', get_user_email, name='get_user_email'),
+    path('get_hoi_dept', get_hoi_dept, name='get_hoi_dept'),
 
 ]

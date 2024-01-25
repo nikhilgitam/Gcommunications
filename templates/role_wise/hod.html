@@ -131,16 +131,12 @@
     })
 
     $(document).on('change','#gfor_hod',function (){
-
-
-
             $('#gfor_note').show()
             $('#degree').empty()
-
             $('#checkboxes').empty();
             $('#sem').empty();
             $('#batch_div').hide();
-           $('#degree_div_hod').hide()
+            $('#degree_div_hod').hide()
             $('#role_div').hide();
             $('#checkbox1').prop('checked', false);
             $('#checkbox2').prop('checked', false);
@@ -154,6 +150,11 @@
             $('#degree_div_hod').hide()
             $('#role_div').show()
             $('#batch_div').hide()
+           $('#degree').prop('required', false);
+           $('#batch').prop('required', false);
+            $('#staff_note').show();
+                $('#std_note').hide();
+                 $('#parent_note').hide();
 
         }
         if ((gfor.includes('student')) || (gfor.includes('parent'))) {
@@ -161,6 +162,9 @@
             $('#degree').append()
             $('#role_div').hide()
             $('#batch_div').hide()
+             $('#std_note').show();
+                $('#staff_note').hide();
+                $('#parent_note').hide();
 
 
         var newOptions = [
@@ -178,8 +182,23 @@
             $('#degree_div_hod').show()
             $('#role_div').show()
             $('#batch_div').hide()
+            $('#staff_note').show();
+            $('#std_note').show();
+            $('#parent_note').show();
 
         }
+        if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')) {
+            $('#staff_note').show();
+            $('#std_note').show();
+            $('#parent_note').show();
+        }
+        if (gfor.length === 0) {
+            $('#staff_note').hide();
+            $('#std_note').hide();
+            $('#parent_note').hide();
+            $('#gfor_note').hide();
+        }
+
 
     });
 </script>
