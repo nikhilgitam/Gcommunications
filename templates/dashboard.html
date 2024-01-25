@@ -741,11 +741,20 @@
                     $('#gfor_hod').val(arr)
 
                 } else { //deselect all
+                    $("#department").find("option").each(function () {
+                        $(this).removeAttr("selected");
+                    });
                     $("#gfor_hod").find("option").each(function () {
                         $(this).removeAttr("selected");
 
                         $('#batch_div').removeAttr("selected");
+
                         $('#degree_div_hod').removeAttr("selected");
+
+
+
+        // Remove selected options from Select2
+
                     });
                     $('#checkbox_class').prop('checked', false);
                     $('#checkbox_degree').prop('checked', false);
