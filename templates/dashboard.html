@@ -368,7 +368,7 @@
           $('#std_note').hide();
           $('#parent_note').hide();
 
-        $(document).on('change', '#gfor', function () {
+        $(document).on('change', '#gfor', function() {
             $('#institute').empty();
             $('#gfor_note').show();
             $('#campus').empty();
@@ -385,14 +385,25 @@
             $('#checkbox4').prop('checked', false);
             $('#checkbox_degree').prop('checked', false);
             $('#checkbox_class').prop('checked', false);
-            $('#campus').removeAttr('disabled')
-            $('#checkbox1').removeAttr('disabled')
+
+
+
             if(role === "HOD" || role === "HOI"){
                 var gfor = $('#gfor_hod').val();
             }
             else{
                 var gfor = $('#gfor').val();
             }
+
+            if (gfor.length > 0){
+                $('#campus').removeAttr('disabled')
+                 $('#checkbox1').removeAttr('disabled')
+            }
+            if (gfor.length === 0){
+               $('#campus').prop('disabled', true);
+                $('#checkbox1').prop('disabled', true);
+            }
+            console.log(gfor.length)
 
              if (gfor.includes('staff')){
                 $('#staff_note').show();
@@ -555,25 +566,25 @@
                 $('#batch').prop('required', false);
             }
             if (gfor.includes('directors')){
-                  $('#role_div').show();
+                $('#role_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
             if (gfor.includes('deans')){
-                  $('#role_div').hide();
+                $('#role_div').hide();
                 $('#role').prop('required', false);
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
             if (gfor.includes('student') || gfor.includes('parent')) {
                 $('#degree_div').show();
-                 $('#role_div').hide();
+                $('#role_div').hide();
                 $('#role').prop('required', false);
             }
             if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')){
                 $('#role_div').show();
-                 $('#degree_div').show();
+                $('#degree_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', true);
                 $('#batch').prop('required', true);
@@ -589,7 +600,6 @@
         });
 
         $(document).on('change', '#degree', function () {
-
             var role = "{{request.session.gname}}"
             if(role === "HOD" || role === "HOI"){
                 var gfor = $('#gfor_hod').val();
