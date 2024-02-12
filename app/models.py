@@ -887,6 +887,7 @@ class PushNotification(models.Model):
     campus = models.TextField(null=True, blank=True)
     institute = models.TextField(null=True, blank=True)
     department = models.TextField(null=True, blank=True)
+    hosteler = models.BooleanField(default=False, null=True, blank=True)
     group = models.TextField(null=True, blank=True)
     sent_by = models.CharField(max_length=10, null=True, blank=True)
     type = models.CharField(max_length=10, null=True, blank=True)

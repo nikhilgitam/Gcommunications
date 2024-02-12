@@ -39,7 +39,7 @@
                     <div class="box-container">
                         <form method="post" action="/broadcast" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {% if request.session.gname == "ADMIN" or  request.session.gname == "DIRECTOR"  %}
+                            {% if request.session.gname == "ADMIN" or  request.session.gname == "LEADER"  %}
                                 {% include 'role_wise/admin.html' %}
                             {% elif request.session.gname == "HOD" %}
                                 {% include 'role_wise/hod.html' %}
@@ -54,30 +54,31 @@
                                                     <div id="gfor_note">
                                  <p style="font-size: 12px">Note:<span style="color: darkred;font-weight: bold;">*</span> Target Audience: <br>
                                     <span id="std_note"> &#x2022; Student: - Notifications will be reflected in G-Student Portal</span>
-                                     <span id="staff_note">  &#x2022; Staff, Directors, Deans, etc.: - Notifications will be reflected in G-Staff Portal</span>
+                                     <span id="staff_note">  &#x2022; Staff, leaders, Deans, etc.: - Notifications will be reflected in G-Staff Portal</span>
                                       <span id="parent_note"> &#x2022; Parent: - Notifications will be reflected in G-Parent Portal</span>
                                  </p>
 
                             </div>
-                        <div class="row">
-                            <div class="col-lg-2">
-                            <div class="form-group">
-         <label for="tln">Visibility *</label>
-                                <select name="visibility" class="form-control" required>
-                                    <option value="">Select</option>
-                                    <option value="1">1 Day</option>
-                                    <option value="2">2 Days</option>
-                                    <option value="3">3 Days</option>
-                                    <option value="4">4 Days</option>
-                                    <option value="5">5 Days</option>
-                                    <option value="6">6 Days</option>
-                                    <option value="1W">7 Days</option>
-                                    <option value="2W">2 Weeks</option>
-                                    <option value="1M">1 Month</option>
-                                </select>
 
-                            </div>
-                        </div>
+{#                        <div class="row">#}
+{#                            <div class="col-lg-2">#}
+{#                            <div class="form-group">#}
+{#         <label for="tln">Visibility *</label>#}
+{#                                <select name="visibility" class="form-control" required>#}
+{#                                    <option value="">Select</option>#}
+{#                                    <option value="1">1 Day</option>#}
+{#                                    <option value="2">2 Days</option>#}
+{#                                    <option value="3">3 Days</option>#}
+{#                                    <option value="4">4 Days</option>#}
+{#                                    <option value="5">5 Days</option>#}
+{#                                    <option value="6">6 Days</option>#}
+{#                                    <option value="1W">7 Days</option>#}
+{#                                    <option value="2W">2 Weeks</option>#}
+{#                                    <option value="1M">1 Month</option>#}
+{#                                </select>#}
+{##}
+{#                            </div>#}
+{#                        </div>#}
 {#                          <div class="col-lg-2">#}
 {#                            <div class="form-group">#}
 {#                                <label for="Department">From *</label>#}
@@ -90,37 +91,38 @@
 {#                                <input type="date" class="form-control"  min="{{ exclude_today|from_current_data }}" id="to_date" name="to_date" required>#}
 {#                            </div>#}
 {#                        </div>#}
-
-                                <div class="col-lg-2">
-        <div class="form-group">
-            <label for="Department">Repetition *</label>
-            <select class="form-control" name="message_type" id="message_type" required>
-                <option value="">Select</option>
-                <option value="1">One Time</option>
-                <option value="2">Daily</option>
-                <option value="3">Weekly</option>
-                <option value="4">Monthly</option>
-            </select>
-        </div>
-                                    <input type="hidden" name="schedule_dt" id="saved_schedule" value="">
-    </div>
-
-                            </div>
+{##}
+{#                                <div class="col-lg-2">#}
+{#        <div class="form-group">#}
+{#            <label for="Department">Repetition *</label>#}
+{#            <select class="form-control" name="message_type" id="message_type" required>#}
+{#                <option value="">Select</option>#}
+{#                <option value="1">One Time</option>#}
+{#                <option value="2">Daily</option>#}
+{#                <option value="3">Weekly</option>#}
+{#                <option value="4">Monthly</option>#}
+{#            </select>#}
+{#        </div>#}
+{#                                    <input type="hidden" name="schedule_dt" id="saved_schedule" value="">#}
+{#    </div>#}
+{##}
+{#                            </div>#}
 
                             <div class="row">
 
-                                <div class="col-lg-6" id="notification">
-                                    <h3 class="sub-title">Notification Content</h3> <label for="">Push Notification</label> <input type="checkbox" name="push"
-                                                                                       checked="true" disabled/>
-                                        &nbsp;&nbsp;&nbsp;<label for="circular">Circular Notification</label> <input id="circular"
-                                            type="checkbox" name="circular" value="0" />
-                                    <p style="font-size: 12px">Note:<span style="color: darkred;font-weight: bold;">*</span> Push Notification will be sent only to the Mobile App Users</p>
+                                <div class="col-lg-8" id="notification">
+                                    <h3 class="sub-title">Circular Content</h3>
+{#                                    <label for="">Push Notification</label> <input type="checkbox" name="push"#}
+{#                                                                                       checked="true" disabled/>#}
+{#                                        &nbsp;&nbsp;&nbsp;<label for="circular">Circular Notification</label> <input id="circular"#}
+{#                                            type="checkbox" name="circular" value="0" />#}
+{#                                    <p style="font-size: 12px">Note:<span style="color: darkred;font-weight: bold;">*</span> Push Notification will be sent only to the Mobile App Users</p>#}
                                     <div class="form-group">
 
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="subjectname">Notification Title *</label>
+                                        <label for="subjectname"> Title *</label>
                                         <input type="text" class="form-control"
                                                aria-describedby="subjectHelp" name="title" required>
                                         <small id="subjectHelp" class="form-text text-muted">Please Enter Title
@@ -279,6 +281,7 @@
     $(document).ready(function () {
 
 
+
         showContent();
 
 
@@ -367,6 +370,9 @@
          $('#staff_note').hide();
           $('#std_note').hide();
           $('#parent_note').hide();
+        $('#preview').hide()
+        $('#hostel_div').hide()
+        $('.msg').show()
 
         $(document).on('change', '#gfor', function() {
             $('#institute').empty();
@@ -384,6 +390,7 @@
             $('#checkbox3').prop('checked', false);
             $('#checkbox4').prop('checked', false);
             $('#checkbox_degree').prop('checked', false);
+            $('#checkbox_hostel').prop('checked', false);
             $('#checkbox_class').prop('checked', false);
 
 
@@ -412,7 +419,7 @@
 
             }
 
-            if (gfor.includes('directors')){
+            if (gfor.includes('leaders')){
                   $('#staff_note').show();
                    $('#std_note').hide();
                     $('#parent_note').hide();
@@ -427,32 +434,39 @@
                 $('#std_note').show();
                 $('#staff_note').hide();
                 $('#parent_note').hide();
+                $('#hostel_div').show();
             }
             if (gfor.includes('parent')) {
                 $('#parent_note').show();
                 $('#std_note').hide();
                 $('#staff_note').hide();
+                $('#hostel_div').show();
             }
             if (gfor.includes('student')  && gfor.includes('staff')){
                   $('#staff_note').show();
           $('#std_note').show();
           $('#parent_note').show();
+                  $('#hostel_div').show();
             }
             if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')){
                   $('#staff_note').show();
           $('#std_note').show();
           $('#parent_note').show();
+             $('#hostel_div').show();
             }
-            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('directors')){
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('leaders')){
                     $('#staff_note').show();
           $('#std_note').show();
           $('#parent_note').show();
+             $('#hostel_div').show();
             }
             if (gfor.length === 0){
                 $('#staff_note').hide();
           $('#std_note').hide();
           $('#parent_note').hide();
            $('#gfor_note').hide();
+           $('#hostel_div').hide();
+           $('#checkbox_hostel').removeAttr("selected");
             }
             var campus = ['VSP', 'HYD', 'BLR']
             for (var i = 0; i < campus.length; i++) {
@@ -565,7 +579,7 @@
                 $('#degree').prop('required', false);
                 $('#batch').prop('required', false);
             }
-            if (gfor.includes('directors')){
+            if (gfor.includes('leaders')){
                 $('#role_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', false);
@@ -581,17 +595,20 @@
                 $('#degree_div').show();
                 $('#role_div').hide();
                 $('#role').prop('required', false);
+           $('#hostel_div').show();
             }
             if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff')){
                 $('#role_div').show();
                 $('#degree_div').show();
+                      $('#hostel_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', true);
                 $('#batch').prop('required', true);
             }
-            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('directors')){
+            if (gfor.includes('student') && gfor.includes('parent') && gfor.includes('staff') && gfor.includes('leaders')){
                 $('#role_div').show();
                 $('#degree_div').show();
+                        $('#hostel_div').show();
                 $('#role').prop('required', true);
                 $('#degree').prop('required', true);
                 $('#batch').prop('required', true);
@@ -658,6 +675,7 @@
 
             }
         });
+
 
         $(document).on('change', '#batch', function () {
             $('#checkbox2').prop('checked', true);
@@ -740,6 +758,7 @@
             $('#checkbox3').removeAttr("selected");
             $('#checkbox4').removeAttr("selected");
             $('#checkbox2').removeAttr("selected");
+            $('#checkbox_hostel').removeAttr("selected");
             var gname = "{{ request.session.gname }}"
             if (gname == "HOI" ||  gname == "HOD"){
                 if ($(this).is(':checked')) { //select all
@@ -763,6 +782,8 @@
 
                         $('#degree_div_hod').removeAttr("selected");
 
+                        $('#checkbox_hostel').removeAttr("selected");
+
 
 
         // Remove selected options from Select2
@@ -770,12 +791,14 @@
                     });
                     $('#checkbox_class').prop('checked', false);
                     $('#checkbox_degree').prop('checked', false);
+                    $('#checkbox_hostel').prop('checked', false);
                     $('#checkbox1').prop('checked', false);
                     $('#checkbox2').prop('checked', false);
                     $('#checkbox3').prop('checked', false);
                     $('#checkbox4').prop('checked', false);
                     $('#batch_div').hide();
                     $('#degree_div_hod').hide();
+                    $('#hosteler_div').hide();
                 }
                 $('#gfor_hod').trigger('change');
             }
@@ -794,14 +817,18 @@
                         $('#campus').removeAttr("selected");
                         $('#batch').removeAttr("selected");
                         $('#degree').removeAttr("selected");
+                        $('#hosteler_div').hide();
                     });
                     $('#checkbox_class').prop('checked', false);
                     $('#checkbox_degree').prop('checked', false);
+                    $('#checkbox_hostel').prop('checked', false);
                     $('#checkbox1').prop('checked', false);
                     $('#checkbox2').prop('checked', false);
                     $('#checkbox3').prop('checked', false);
                     $('#checkbox4').prop('checked', false);
+                    $('#checkbox_degree').prop('checked', false);
                     $('#batch_div').hide();
+                    $('#hosteler_div').hide();
                 }
                 $('#gfor').trigger('change');
             }
@@ -868,6 +895,28 @@
                 });
             }
             $('#degree').trigger('change');
+        });
+
+        $(document).on('click', '#checkbox_hostel', function () {
+            var data = $(this).val()
+
+
+            if ($(this).is(':checked')) { //select all
+
+                arr = []
+                $("#hosteler").find("option").each(function () {
+                    $(this).attr('selected', 'selected');
+                    arr.push($(this).val())
+
+                });
+                $('#hosteler').val(arr)
+            } else { //deselect all
+
+                $("#hosteler").find("option").each(function () {
+                    $(this).removeAttr("selected");
+                });
+            }
+            $('#hosteler').trigger('change');
         });
 
 

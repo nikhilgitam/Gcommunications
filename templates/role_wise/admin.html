@@ -9,8 +9,8 @@
                                             <option value="student">Student </option>
                                             <option value="staff">Staff </option>
                                             <option value="parent">Parent </option>
-                                            {% if request.session.gname == "ADMIN" or request.session.gname == "DIRECTOR" %}
-                                                <option value="directors">Directors</option>
+                                            {% if request.session.gname == "ADMIN" or request.session.gname == "LEADER" %}
+                                                <option value="leaders">Leaders</option>
                                             {% endif %}
                                         {% if request.session.gname == "ADMIN" or request.session.gname == "Dean" %}
                                                 <option value="deans">Deans</option>
@@ -21,8 +21,8 @@
                                         All
                                         <br>
 
-                                        <small id="AudienceHelp" class="form-text text-muted">Please Select
-                                            Audience</small>
+{#                                        <small id="AudienceHelp" class="form-text text-muted">Please Select#}
+{#                                            Audience</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
@@ -42,8 +42,8 @@
                                         All
                                         <br>
 
-                                        <small id="campusHelp" class="form-text text-muted">Please Select
-                                            Campus</small>
+{#                                        <small id="campusHelp" class="form-text text-muted">Please Select#}
+{#                                            Campus</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -56,8 +56,8 @@
                                                id="checkbox3">Select
                                         All
                                         <br>
-                                        <small id="instHelp" class="form-text text-muted">Please Select
-                                            Institute</small>
+{#                                        <small id="instHelp" class="form-text text-muted">Please Select#}
+{#                                            Institute</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -73,8 +73,8 @@
                                         All
                                         <br>
 
-                                        <small id="deptHelp" class="form-text text-muted">Please Select
-                                            Department</small>
+{#                                        <small id="deptHelp" class="form-text text-muted">Please Select#}
+{#                                            Department</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-2" id="role_div">
@@ -89,8 +89,27 @@
                                             <option value="N">Non Teaching</option>
 
                                         </select>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Job Role</small>
+{#                                        <small id="roleHelp" class="form-text text-muted">Please Select#}
+{#                                            Job Role</small>#}
+                                    </div>
+                                </div>
+                                <div class="col-lg-2" id="hostel_div">
+                                    <div class="form-group">
+                                        <label for="type_student">Type of Student *</label>
+                                        <select id="hosteler" name="type_student[]" style="width:100% !important"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="type_student"
+                                                aria-describedby="batchHelp" multiple required>
+                                            <option value="day_scholar">Day Scholar</option>
+                                            <option value="hosteler">Hostelers</option>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_hostel">Select
+                                        All
+                                        <br>
+                                        {#                                        <small id="roleHelp" class="form-text text-muted">Please Select#}
+                                        {#                                            Degree</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-2" id="degree_div">
@@ -109,8 +128,8 @@
                                                id="checkbox_degree">Select
                                         All
                                         <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            Degree</small>
+{#                                        <small id="roleHelp" class="form-text text-muted">Please Select#}
+{#                                            Degree</small>#}
                                     </div>
                                 </div>
                                 <div class="col-lg-3" id="batch_div">
@@ -128,8 +147,8 @@
                                                id="checkbox_class">Select
                                         All
                                         <br>
-                                        <small id="roleHelp" class="form-text text-muted">Please Select
-                                            year</small>
+{#                                        <small id="roleHelp" class="form-text text-muted">Please Select#}
+{#                                            year</small>#}
                                     </div>
                                 </div>
 

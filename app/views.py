@@ -54,7 +54,6 @@ def dashboard(request):
         inst = list(inst)
         request.session['dean_list'] = inst
 
-
     if request.session['gname'] == "HOI":
         dept = EmployeeMaster.objects.using('GITAM').filter(campus=request.user.campus,college_code=request.user.institution).values_list('dept_code',flat=True).distinct()
         dept = list(dept)
@@ -82,8 +81,8 @@ def ADMIN(request):
     request.session['gname'] = "ADMIN"
     return redirect('dashboard')
 
-def DIRECTOR(request):
-    request.session['gname'] = "DIRECTOR"
+def LEADER(request):
+    request.session['gname'] = "LEADER"
     return redirect('dashboard')
 
 def HOD(request):
@@ -190,8 +189,8 @@ def get_institute(request):
             college_code__isnull=True).distinct().values_list('college_code', flat=True)
         institute = list(institute)
         institute = list(filter(None, institute))
-    if 'directors' in gfor:
-        institute = User.objects.filter(campus__in=campus,userOf__group__name='DIRECTOR').exclude(
+    if 'leaders' in gfor:
+        institute = User.objects.filter(campus__in=campus,userOf__group__name='LEADER').exclude(
             institution__isnull=True).distinct().values_list('institution', flat=True)
         institute = list(institute)
         institute = list(filter(None, institute))
@@ -226,7 +225,7 @@ def get_department(request):
     gfor = request.GET.getlist('gfor[]')
     campus = request.GET.getlist('campus[]')
     institute = request.GET.getlist('institute[]')
-    if 'directors' in gfor:
+    if 'leaders' in gfor:
         df2 = User.objects.filter(campus__in=campus, institution__in=institute).exclude(dept_code__isnull=True).values_list(
             'dept_code', flat=True).distinct()
     if 'deans' in gfor:
@@ -395,9 +394,9 @@ def boardcast(request):
         data = request.POST['message']
         sent_by = request.user.u_id
         push_for = request.POST.getlist('gfor')
-        visibility = request.POST['visibility']
-        schedule = request.POST['schedule_dt']
-        message_type = request.POST['message_type']
+        # visibility = request.POST['visibility']
+        schedule = request.POST.get('schedule_dt',False)
+        # message_type = request.POST['message_type']
 
         circular = 0
         if 'circular' in request.POST:
@@ -406,6 +405,15 @@ def boardcast(request):
         campus = request.POST.getlist('campus[]')
         college = request.POST.getlist('institute[]')
         department = request.POST.getlist('department[]')
+
+
+        student_type = request.POST.getlist('type_student[]')
+
+        print("student_type")
+        print(student_type)
+        print("student_type")
+
+
         degree = ""
         if 'degree' in request.POST:
             degree = request.POST.getlist('degree[]')
@@ -422,7 +430,7 @@ def boardcast(request):
             role_ = 'S'
         if "parent" in push_for:
             role_ = 'P'
-        if ("staff" in push_for) or ("directors" in push_for) or ("deans" in push_for):
+        if ("staff" in push_for) or ("leaders" in push_for) or ("deans" in push_for):
             role_ = 'E'
 
 
@@ -441,16 +449,16 @@ def boardcast(request):
             if role != "":
                 employees.filter(job_status=role)
             push_list = list(employees.values_list('empid', flat=True))
-        if 'directors' in push_for:
+        if 'leaders' in push_for:
             ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
-                                                                     dept_code__in=department,userOf__group__name='DIRECTOR').values_list('u_id', flat=True)
+                                                                     dept_code__in=department,userOf__group__name='LEADER').values_list('u_id', flat=True)
             push_list = list(ddata1)
         if 'deans' in push_for:
             ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
                                                                      dept_code__in=department,userOf__group__name='DEAN').values_list('u_id', flat=True)
 
             push_list = list(ddata1)
-        if all(item in push_for for item in ['student', 'parent','staff','directors','deans']):
+        if all(item in push_for for item in ['student', 'parent','staff','leaders','deans']):
             employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
                                                                      dept_code__in=department,emp_status='A')
             if role != "":
@@ -465,7 +473,6 @@ def boardcast(request):
                 students.filter(batch__in=batch)
 
             push_list2 = list(students.values_list('regdno', flat=True))
-
             push_list = push_list1 + push_list2
 
         # group = "[" + ', '.join(campus) + '],[' + ', '.join(college) + '],[' + ', '.join(
@@ -487,9 +494,13 @@ def boardcast(request):
         notification.department = department
         notification.role = request.user.category
         notification.user = request.user.u_id
+        if len(student_type) >= 1:
+            if "hosteler" in student_type:
+                notification.hosteler = True
+
         if schedule:
             notification.scheduled_time = schedule
-        notification.repeat_message = message_type
+        # notification.repeat_message = message_type
         if schedule:
             notification.is_schedule = True
         notification.save()
@@ -519,7 +530,7 @@ def boardcast(request):
 
 
 
-        push_thread = Thread(target=send_push_notification, args=(push_list, role_, notification, visibility, request, circular, title, body, data))
+        push_thread = Thread(target=send_push_notification, args=(push_list, role_, notification, request, circular, title, body, data))
 
         push_thread.start()
 
