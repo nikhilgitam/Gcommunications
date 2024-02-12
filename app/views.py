@@ -392,6 +392,7 @@ def boardcast(request):
         title = request.POST['title']
         body = request.POST['body']
         data = request.POST['message']
+        type_of_communication = request.POST['type_of_communication']
         sent_by = request.user.u_id
         push_for = request.POST.getlist('gfor')
         # visibility = request.POST['visibility']
@@ -488,7 +489,7 @@ def boardcast(request):
         # group = ""
 
 
-        notification = PushNotification.objects.create(title=title, body=body, data=data, group=push_for, sent_by=sent_by, type='Push')
+        notification = PushNotification.objects.create(type_of_communication=type_of_communication,title=title, body=body, data=data, group=push_for, sent_by=sent_by, type='Push')
         notification.campus = campus
         notification.institute = college
         notification.department = department

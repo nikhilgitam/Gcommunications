@@ -76,6 +76,25 @@
                 Job Role</small>
         </div>
     </div>
+                                <div class="col-lg-2" id="hostel_div">
+                                    <div class="form-group">
+                                        <label for="type_student">Type of Student *</label>
+                                        <select id="hosteler" name="type_student[]" style="width:100% !important"
+                                                class="form-control js-example-institute-multiple"
+                                                aria-label="type_student"
+                                                aria-describedby="batchHelp" multiple required>
+                                            <option value="day_scholar">Day Scholar</option>
+                                            <option value="hosteler">Hostelers</option>
+
+                                        </select>
+                                        <input type="checkbox" class="form-check-inline"
+                                               id="checkbox_hostel">Select
+                                        All
+                                        <br>
+                                        {#                                        <small id="roleHelp" class="form-text text-muted">Please Select#}
+                                        {#                                            Degree</small>#}
+                                    </div>
+                                </div>
     <div class="col-lg-3" id="degree_div_hod">
         <div class="form-group">
             <label for="role">Degree *</label>

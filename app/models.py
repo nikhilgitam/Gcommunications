@@ -882,6 +882,7 @@ class PushNotification(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     role = models.CharField(max_length=20, null=True, blank=True)
     body = models.TextField(null=True, blank=True)
+    type_of_communication = models.CharField(max_length=100,null=True, blank=True)
     title = models.TextField(null=True, blank=True)
     data = models.TextField(null=True, blank=True)
     campus = models.TextField(null=True, blank=True)
