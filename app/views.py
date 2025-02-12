@@ -3,7 +3,7 @@ from django.db import close_old_connections
 from threading import Thread
 import sweetify
 from django.contrib import messages
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login,authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -11,12 +11,32 @@ from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 from email.message import EmailMessage
 from email.mime.text import MIMEText
+from mobile_app.models import PushNotification as PNotification
 import base64
+
+from rest_framework.views import APIView
 
 from exponent_server_sdk import PushMessage, PushClient
 from users.models import *
 from app.models import *
 from datetime import datetime
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+import os
+
+import sys
+from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
+import os
+import clr
+from django.core.mail import EmailMessage, EmailMultiAlternatives, send_mail
+abs_path = os.path.abspath(os.path.join(os.getcwd()))
+abs_path = abs_path.replace('\\', '\\\\')
+clr.AddReference(r"" + abs_path + "\\\\ClassLibrary1.dll")
+from django.db import connections
+
+from testDLLApp import Class1
 
 SCOPES = ['https://www.googleapis.com/auth/admin.directory.user',
           'https://www.googleapis.com/auth/admin.directory.group.readonly',
@@ -35,7 +55,7 @@ SCOPES = ['https://www.googleapis.com/auth/admin.directory.user',
 # Create your views here.
 def logout2(request):
     logout(request)
-    return redirect('/')
+    return redirect('https://login.gitam.edu/Login.aspx')
 
 
 def login2(request):
@@ -65,8 +85,35 @@ def dashboard(request):
 
 def index(request):
     empid = request.POST['empid']
-    if User.objects.filter(u_id=empid).exists():
+    password = request.POST['password']
+
+    user = authenticate(username=empid, password=password)
+    if user:
         user = User.objects.get(u_id=empid)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request, user)
+        gname = request.user.groups.all().values()
+        gname2 = gname[0]['name']
+        request.session['gname'] = gname2
+        return redirect('dashboard')
+    else:
+        messages.error(request,'You are not authorized to access')
+        return redirect('/')
+def index2(request):
+    empid = request.GET['empid']
+    # empid = "aDiOLO07yvk=" # 501244
+    # empid = 'jAvl39XOUfE=' #501618
+    # id = empid
+    id = Class1.Decrypt(empid, True, 'Cums$dHs')
+    try:
+        id = id.split('#')
+        id = id[0]
+    except:
+        id = id
+
+    print(id)
+    if User.objects.filter(u_id=id).exists():
+        user = User.objects.get(u_id=id)
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
         gname = request.user.groups.all().values()
@@ -342,6 +389,7 @@ def send_push_notification(push_list, role_, notification, visibility, request, 
         push_client = PushClient()
         for push_token in push_tokens:
             if push_token:
+
                 print('push_token')
                 print(push_token)
                 push = PushNotificationStatus.objects.create(notification=notification, role=role_,
@@ -381,10 +429,16 @@ def send_push_notification(push_list, role_, notification, visibility, request, 
                         data={"id": None},
                     )
                 response = push_client.publish(message)
+                print('--------------')
+                print(response)
+                print(push_token)
+                print('--------------')
 
     except Exception as e:
         print(str(e))
 
+
+from threading import Thread
 
 
 def boardcast(request):
@@ -395,199 +449,107 @@ def boardcast(request):
         type_of_communication = request.POST['type_of_communication']
         sent_by = request.user.u_id
         push_for = request.POST.getlist('gfor')
-        # visibility = request.POST['visibility']
-        schedule = request.POST.get('schedule_dt',False)
-        # message_type = request.POST['message_type']
-
-        circular = 0
-        if 'circular' in request.POST:
-            circular = int(request.POST['circular'])
+        schedule = request.POST.get('schedule_dt', False)
+        circular = int(request.POST.get('circular', 0))
 
         campus = request.POST.getlist('campus[]')
         college = request.POST.getlist('institute[]')
         department = request.POST.getlist('department[]')
-
-
         student_type = request.POST.getlist('type_student[]')
 
-        print("student_type")
-        print(student_type)
-        print("student_type")
+        degree = request.POST.getlist('degree[]') if 'degree[]' in request.POST else []
+        batch = request.POST.getlist('batch[]') if 'batch[]' in request.POST else []
+        role = request.session['gname']
 
+        upload = request.FILES.get('upload', '')
 
-        degree = ""
-        if 'degree' in request.POST:
-            degree = request.POST.getlist('degree[]')
-        batch = ""
-        if 'batch' in request.POST:
-            batch = request.POST.getlist('batch[]')
-        role = ""
-        if 'role' in request.POST:
-            role = request.POST.getlist('role[]')
-        upload = ''
-        if 'upload' in request.FILES:
-            upload = request.FILES['upload']
-        if "student" in push_for:
-            role_ = 'S'
-        if "parent" in push_for:
-            role_ = 'P'
-        if ("staff" in push_for) or ("leaders" in push_for) or ("deans" in push_for):
-            role_ = 'E'
+        role_map = {
+            "student": 'S',
+            "parent": 'P',
+            "staff": 'E',
+            "leaders": 'E',
+            "deans": 'E'
+        }
+        role_ = next((role_map[r] for r in push_for if r in role_map), '')
 
+        push_list = []
 
-        if ('student' in push_for) or ('parent' in push_for):
-            students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                   dept_code__in=department)
-            if degree != "":
-                students.filter(degree_code__in=degree)
-            if batch != "":
-                students.filter(batch__in=batch)
+        if any(group in push_for for group in ['student', 'parent']):
+            students = StudentMaster.objects.using("GITAM").filter(
+                campus__in=campus, college_code__in=college, dept_code__in=department
+            )
+            if degree:
+                students = students.filter(degree_code__in=degree)
+            if batch:
+                students = students.filter(batch__in=batch)
+            push_list += list(students.values_list('regdno', flat=True))
 
-            push_list = list(students.values_list('regdno', flat=True))
         if 'staff' in push_for:
-            employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                     dept_code__in=department)
-            if role != "":
-                employees.filter(job_status=role)
-            push_list = list(employees.values_list('empid', flat=True))
+            employees = EmployeeMaster.objects.using("GITAM").filter(
+                campus__in=campus, college_code__in=college, dept_code__in=department
+            )
+            if role:
+                employees = employees.filter(job_status__in=role)
+            push_list += list(employees.values_list('empid', flat=True))
+
         if 'leaders' in push_for:
-            ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
-                                                                     dept_code__in=department,userOf__group__name='LEADER').values_list('u_id', flat=True)
-            push_list = list(ddata1)
+            push_list += list(
+                User.objects.filter(
+                    campus__in=campus, institution__in=college, dept_code__in=department, userOf__group__name='LEADER'
+                ).values_list('u_id', flat=True)
+            )
+
         if 'deans' in push_for:
-            ddata1 = User.objects.filter(campus__in=campus, institution__in=college,
-                                                                     dept_code__in=department,userOf__group__name='DEAN').values_list('u_id', flat=True)
+            push_list += list(
+                User.objects.filter(
+                    campus__in=campus, institution__in=college, dept_code__in=department, userOf__group__name='DEAN'
+                ).values_list('u_id', flat=True)
+            )
 
-            push_list = list(ddata1)
-        if all(item in push_for for item in ['student', 'parent','staff','leaders','deans']):
-            employees = EmployeeMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                     dept_code__in=department,emp_status='A')
-            if role != "":
-                employees.filter(job_status=role)
-            push_list1 = list(employees.values_list('empid', flat=True))
+        # Create notification in the default database
+        notification = PushNotification.objects.create(
+            type_of_communication=type_of_communication,
+            title=title,
+            body=body,
+            data=data,
+            group=push_for,
+            sent_by=sent_by,
+            type='Circular' if circular else 'Push',
+            campus=campus,
+            batch=batch,
+            degree=degree,
+            student_type=student_type,
+            institute=college,
+            department=department,
+            category=request.user.category,
+            role=role,
+            hosteler="hosteler" in student_type,
+            scheduled_time=schedule if schedule else None,
+            is_schedule=bool(schedule),
+            attachments=upload  # Save the file first
+        )
 
-            students = StudentMaster.objects.using("GITAM").filter(campus__in=campus, college_code__in=college,
-                                                                   dept_code__in=department,status='S')
-            if degree != "":
-                students.filter(degree_code__in=degree)
-            if batch != "":
-                students.filter(batch__in=batch)
+        # Now update the attachments_url with the actual stored filename
+        if notification.attachments:
+            notification.attachment_url = f"https://gcommunications.gitam.edu/media/{notification.attachments.name}"
+            notification.save(update_fields=['attachment_url'])  # Save only this field to avoid unnecessary updates
 
-            push_list2 = list(students.values_list('regdno', flat=True))
-            push_list = push_list1 + push_list2
+        # Insert into 'mobile' database
+        PNotification.objects.using('mobile').create(
+            **{field.name: getattr(notification, field.name) for field in PushNotification._meta.fields}
+        )
 
-        # group = "[" + ', '.join(campus) + '],[' + ', '.join(college) + '],[' + ', '.join(
-        #     department) + '],'
-        # if degree != "":
-        #     group += '[' + ', '.join(degree) + '],'
-        # if batch != "":
-        #     group += '[' + ', '.join(batch) + '],'
-        # if role != "":
-        #     group += '[' + ', '.join(role) + '],'
+        visibility = 1
 
-
-        # group = ""
-
-
-        notification = PushNotification.objects.create(type_of_communication=type_of_communication,title=title, body=body, data=data, group=push_for, sent_by=sent_by, type='Push')
-        notification.campus = campus
-        notification.institute = college
-        notification.department = department
-        notification.role = request.user.category
-        notification.user = request.user.u_id
-        if len(student_type) >= 1:
-            if "hosteler" in student_type:
-                notification.hosteler = True
-
-        if schedule:
-            notification.scheduled_time = schedule
-        # notification.repeat_message = message_type
-        if schedule:
-            notification.is_schedule = True
-        notification.save()
-        if circular:
-            notification.type = 'Circular'
-            notification.save()
-
-        if upload != '':
-            notification.attachments = upload
-            notification.save()
-        # students = students.values()
-        # for i in range(len(students)):
-        #     push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-        #                                                  userid=students[i]['regdno'])
-        #     push.visibility = visibility
-        #     push.save()
-        #     if request.user.category:
-        #         push.category = request.user.category
-        #         if request.user.category == "PROVC":
-        #             push.sub_category = request.user.campus
-        #         if request.user.category == "HOD":
-        #             push.sub_category = request.user.dept_code
-        #         if request.user.category == "HOI":
-        #             push.sub_category = request.user.institution
-        #
-        #         push.save()
-
-
-
-        push_thread = Thread(target=send_push_notification, args=(push_list, role_, notification, request, circular, title, body, data))
-
+        # Start push notification in a thread
+        push_thread = Thread(
+            target=send_push_notification,
+            args=(push_list, role_, notification, visibility, request, circular, title, body, data)
+        )
         push_thread.start()
 
-
-
-        # try:
-        #     push_client = PushClient()
-        #     for push_token in push_tokens:
-        #         if push_token:
-        #             print('push_token')
-        #             print(push_token)
-        #             push = PushNotificationStatus.objects.create(notification=notification, role=role_,
-        #                                                          userid=PushToken.objects.using('G-comm').get(token=push_token,
-        #                                                                                       role=role_).userid)
-        #             push.visibility = visibility
-        #             push.save()
-        #             if request.user.category:
-        #                 push.category = request.user.category
-        #                 if request.user.category == "PROVC":
-        #                     push.sub_category = request.user.campus
-        #                 if request.user.category == "HOD":
-        #                     push.sub_category = request.user.dept_code
-        #                 if request.user.category == "HOI":
-        #                     push.sub_category = request.user.institution
-        #
-        #                 push.save()
-        #             web = WebNotificationStatus.objects.create(notification=notification, role=role_,
-        #                                                          userid=PushToken.objects.using('G-comm').get(token=push_token,
-        #                                                                                       role=role_).userid)
-        #             web.visibility = visibility
-        #             web.save()
-        #             if request.user.category:
-        #                 web.category = request.user.category
-        #                 web.save()
-        #
-        #             if circular:
-        #                 message = PushMessage(
-        #                     to=push_token,
-        #                     title=title,
-        #                     body=body,
-        #                     data={"id": push.id, "data": data},
-        #                 )
-        #             else:
-        #                 message = PushMessage(
-        #                     to=push_token,
-        #                     title=title,
-        #                     body=body,
-        #                     data={"id": None},
-        #                 )
-        #             response = push_client.publish(message)
-        #         sweetify.success(request, "Push Notified Successfully!!")
-        #     sweetify.success(request, "Sent Successfully!!")
-        # except Exception as e:
-        #     print(str(e))
-        #     sweetify.error(request, str(e))
         sweetify.success(request, "Message Sent Successfully")
+
     return redirect('/dashboard')
 
 
@@ -662,4 +624,3 @@ def get_hoi_dept(request):
 
 def add_user_d(request):
     pass
-

@@ -881,6 +881,7 @@ class Dean(models.Model):
 class PushNotification(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     role = models.CharField(max_length=20, null=True, blank=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
     body = models.TextField(null=True, blank=True)
     type_of_communication = models.CharField(max_length=100,null=True, blank=True)
     title = models.TextField(null=True, blank=True)
@@ -888,18 +889,26 @@ class PushNotification(models.Model):
     campus = models.TextField(null=True, blank=True)
     institute = models.TextField(null=True, blank=True)
     department = models.TextField(null=True, blank=True)
+    batch = models.TextField(null=True, blank=True)
+    degree = models.TextField(null=True, blank=True)
+    student_type = models.TextField(null=True, blank=True)
     hosteler = models.BooleanField(default=False, null=True, blank=True)
     group = models.TextField(null=True, blank=True)
     sent_by = models.CharField(max_length=10, null=True, blank=True)
     type = models.CharField(max_length=10, null=True, blank=True)
     is_web = models.BooleanField(default=False,null=True,blank=True)
     is_schedule = models.BooleanField(default=False,null=True,blank=True)
+    attachment_url = models.TextField(blank=True, null=True)
     attachments = models.FileField('attachments/',blank=True,null=True)
     scheduled_time = models.DateTimeField(null=True, blank=True)
     repeat_message = models.IntegerField(default=0, null=True, blank=True)
     dt_time = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    status = models.IntegerField(default=0)
 
-
+    def save(self, *args, **kwargs):
+        if self.attachments:
+            self.attachment_url = f"https://gcommunications.gitam.edu/media/{self.attachments.name}"
+        super().save(*args, **kwargs)
 
 
 class PushNotificationStatus(models.Model):

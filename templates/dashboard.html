@@ -10,7 +10,16 @@
     .home-section{
         overflow-x: hidden !important;
     }
+
+    .tox-statusbar__branding {
+        display: none !important;
+    }
+    .tox-icon tox-tbtn__icon-wrap
+    {
+        display: none !important;
+    }
 </style>
+
 
 
 <body>
@@ -153,9 +162,8 @@
                                     </div>
                                     <div class="form-group msg">
                                         <br/>
-                                        <label for="exampleFormControlTextarea1" class="form-label">Message *</label>
-                                        <textarea class="form-control myEditor" id="exampleFormControlTextarea1"
-                                                  rows="3"
+                                        <label class="form-label">Message *</label>
+                                        <textarea class="form-control"
                                                   aria-describedby="msgHelp" name="message"
                                                   style="height:150px;"></textarea>
                                         <small id="msgHelp" class="form-text text-muted">Please Enter Message</small>
@@ -170,7 +178,7 @@
                                             attachment</small>
                                     </div>
                                        <button type="submit" id="send" class="btn btn-primary">Send Now</button> &nbsp; &nbsp; &nbsp;
-                                       <button  type="button" onClick="myModal()" class="btn btn-primary">Schedule</button>
+{#                                       <button  type="button" onClick="myModal()" class="btn btn-primary">Schedule</button>#}
                                 </div>
                                 <div class="col-lg-6" id="preview">
                                     <h3 class="sub-title">Preview</h3>
@@ -376,12 +384,24 @@
 
 
 
-
-</script>
-
-<script>
     $(document).ready(function () {
         $('.js-example-institute-multiple').select2({theme: "classic", allowClear: true});
+         tinymce.init({
+            selector: '.myEditor',
+            plugins: 'image code advlist  charmap preview anchor pagebreak image autolink lists media table code',
+            toolbar: 'undo redo | link image | code addcomment showcomments casechange checklist  export formatpainter editimage pageembed permanentpen table imageupload',
+            toolbar_mode: 'floating',
+            height: '350',
+            images_upload_url: 'upload',
+            tinycomments_mode: 'embedded',
+            setup: function (editor) {
+                editor.on('change', function (e) {
+                    editor.save();
+                });
+            },
+            image_title: true,
+            content_style: 'body { font-family: "Times New Roman", Times, serif; font-size: 14px !important; }',
+        });
         $('#gfor_note').hide();
          $('#staff_note').hide();
           $('#std_note').hide();
@@ -432,6 +452,9 @@
                 $('#staff_note').show();
                 $('#std_note').hide();
                  $('#parent_note').hide();
+                 $('input[name="type_student[]"]').removeAttr('required');
+
+
 
             }
 

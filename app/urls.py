@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import *
+from app.views import *
+
 
 urlpatterns = [
-    path('', login2, name="login2"),
+    path('user_login', login2, name="user_login"),
     path('index', index, name="index"),
+    path('', index2, name="index2"),
     path('ADMIN', ADMIN, name="ADMIN"),
     path('LEADER', LEADER, name="LEADER"),
     path('HOD', HOD, name="HOD"),
@@ -29,5 +31,6 @@ urlpatterns = [
     path('get_student_emails', get_student_emails, name='get_student_emails'),
     path('get_user_email', get_user_email, name='get_user_email'),
     path('get_hoi_dept', get_hoi_dept, name='get_hoi_dept'),
+
 
 ]

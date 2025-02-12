@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENCRYPT_KEY = b'gOO5zRy11u0LutYE9sZPLEtgJLBVqz5fXveYoU3Uh3I='
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -23,11 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-69+=g^^d9!+1!3)b2)r_dxc_86dx_h4nwm)pd+$wrs3vpk+g2$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
 
 ALLOWED_HOSTS = ['*']
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +40,30 @@ INSTALLED_APPS = [
     'app',
     'users',
     'import_export',
-    'sweetify'
+    'sweetify',
+    'apis',
+    'mobile_app',
+    'rest_framework',
+    'rest_framework.authtoken',
+]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ]
+}
+
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://gcommunications.gitam.edu'
 ]
 
 MIDDLEWARE = [
@@ -88,10 +111,31 @@ AUTH_USER_MODEL = 'users.User'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'Gcommunications-test',
+
+        # 'NAME': 'Gcommunications-test',
+        # 'USER': 'sa',
+        # 'PASSWORD': 'G1t2m@PythonDB_@#',
+        # 'HOST': '192.168.64.191',
+        'NAME': 'Gcommunications',
         'USER': 'sa',
-        'PASSWORD': 'G1t2m@PythonDB_@#',
-        'HOST': '192.168.64.191',
+        'PASSWORD': 'G1t2m@rrDB@234$$',
+        'HOST': '192.168.63.74',
+        'PORT': '',
+        'OPTIONS': {
+            'DRIVER': 'SQL Server Native Client 9.0',
+        },
+    },
+    'mobile': {
+        'ENGINE': 'mssql',
+
+        # 'NAME': 'Gcommunications-test',
+        # 'USER': 'sa',
+        # 'PASSWORD': 'G1t2m@PythonDB_@#',
+        # 'HOST': '192.168.64.191',
+        'NAME': 'MOBILEAPP',
+        'USER': 'sa',
+        'PASSWORD': 'G1t2m@rrDB@234$$',
+        'HOST': '192.168.63.74',
         'PORT': '',
         'OPTIONS': {
             'DRIVER': 'SQL Server Native Client 9.0',
@@ -99,10 +143,16 @@ DATABASES = {
     },
     'G-comm': {
         'ENGINE': 'mssql',
-         'NAME': 'Gcommunications-test',
+
+# 'NAME': 'Gcommunications-test',
+#         'USER': 'sa',
+#         'PASSWORD': 'G1t2m@PythonDB_@#',
+#         'HOST': '192.168.64.191',
+
+'NAME': 'Gcommunications',
         'USER': 'sa',
-        'PASSWORD': 'G1t2m@PythonDB_@#',
-        'HOST': '192.168.64.191',
+        'PASSWORD': 'G1t2m@rrDB@234$$',
+        'HOST': '192.168.63.74',
         'PORT': '',
         'OPTIONS': {
             'DRIVER': 'SQL Server Native Client 9.0',

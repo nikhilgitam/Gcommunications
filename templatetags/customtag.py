@@ -39,6 +39,10 @@ def to_int(value):
     except:
         return value
 
+
+
+
+
 @register.filter(name='from_current_data')
 def from_current_data(value):
     try:
